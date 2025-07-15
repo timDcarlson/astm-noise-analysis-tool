@@ -1,0 +1,9 @@
+
+All High Noise Intervals Above 1200.0 (2 found):
+======================================================================
+ 1. Time: 40.9 - 41.4 min (2018-01-28_08-55-09_DataCollection.txt)
+    Main Channel: N/A
+    Reference Channel: 1293.366
+ 2. Time: 52.4 - 52.9 min (2018-01-28_08-55-09_DataCollection.txt)
+    Main Channel: N/A
+    Reference Channel: 1200.197

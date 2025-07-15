@@ -1,0 +1,63 @@
+Noise Analysis Results for Selected Files:
+============================================================
+
+File: 2018-02-23_18-20-11_DataCollection.txt
+--------------------------------------------------
+Main Channel (72 intervals):
+  Mean:   567.172
+  Max:    788.117
+  Min:    451.922
+  Std:    66.733
+
+Reference Channel (72 intervals):
+  Mean:   875.512
+  Max:    1304.118
+  Min:    698.067
+  Std:    94.373
+
+
+File: 2018-02-23_18-56-43_DataCollection.txt
+--------------------------------------------------
+Main Channel (72 intervals):
+  Mean:   560.567
+  Max:    750.204
+  Min:    462.938
+  Std:    53.172
+
+Reference Channel (72 intervals):
+  Mean:   889.848
+  Max:    1229.269
+  Min:    704.047
+  Std:    104.833
+
+
+File: 2018-02-23_19-33-14_DataCollection.txt
+--------------------------------------------------
+Main Channel (72 intervals):
+  Mean:   583.460
+  Max:    735.800
+  Min:    492.094
+  Std:    56.863
+
+Reference Channel (72 intervals):
+  Mean:   877.283
+  Max:    1104.200
+  Min:    716.775
+  Std:    80.954
+
+
+File: 2018-02-23_20-09-46_DataCollection.txt
+--------------------------------------------------
+Main Channel (11 intervals):
+  Mean:   602.405
+  Max:    773.945
+  Min:    557.630
+  Std:    57.805
+
+Reference Channel (11 intervals):
+  Mean:   838.926
+  Max:    1071.408
+  Min:    703.321
+  Std:    103.843
+
+

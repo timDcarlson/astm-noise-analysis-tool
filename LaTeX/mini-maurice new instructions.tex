@@ -1,0 +1,375 @@
+\documentclass[fontsize=12pt]{scrartcl}
+\usepackage[margin=3cm]{geometry}
+\usepackage{mathspec}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\graphicspath{ {../documentation_pics/} {../screenshots/} {../servicing_pics/} {./} }
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{lmodern}
+\usepackage{wrapfig}
+\usepackage{caption}
+\captionsetup{labelformat=empty}
+\usepackage{listings}
+\usepackage{atbegshi}
+
+\lstset{
+  basicstyle = \ttfamily ,
+  language = Python ,            
+  columns = flexible ,       
+  escapeinside = {<@}{@>} ,
+  frame = lines ,
+  alsoletter = > ,
+  morekeywords = [2]{>>>} ,
+  keywordstyle = [2]\color{blue}\bfseries
+}
+
+
+\usetikzlibrary{arrows,decorations,calligraphy}
+
+
+\setprimaryfont[%Color=white
+]{Arial}
+%\setsansfont{Avenir Next LT Pro}
+\setmathsfont{Palatino}
+
+
+\newsavebox\imagebox
+
+
+\definecolor{btblue}{HTML}{104D97}
+\definecolor{btdarkblue}{HTML}{011d41}
+
+
+\renewcommand\thesection{\textcolor{btblue}{\arabic{section}}}
+\renewcommand\thesubsection{\arabic{subsection}}
+
+
+\AtBeginShipout{\AtBeginShipoutUpperLeft{\put(1cm,-25mm){%
+  \includegraphics[width=15mm]{Bio-Techne Emblem_Gradient bkgd_White emblem.png}
+}}}
+
+
+\begin{document}  
+\section*{\scalebox{1.1}{\textcolor{btblue}{Operating the ``Mini-Maurice'' S2D2 instrument}}}
+\tableofcontents
+\subsection{Material Requirements}
+\begin{enumerate}
+	\item S2D2 Lamp fixture (Boxed contents)
+	\begin{itemize}
+		\item Mini-Maurice S2D2 instrument
+		\item Universal power cord
+		\item Nuc computer
+		\item Monitor
+		\item Keyboard
+		\item Mouse
+		\item Network cable
+		\item USB memory stick
+	\end{itemize}
+	\item \#2 Phillips head screwdriver
+	\item 2mm allen hex key
+\end{enumerate}
+
+\newpage
+
+\subsection{Initial Setup}
+
+\sbox{\imagebox}{\includegraphics[width=0.5\textwidth, angle=-90, keepaspectratio]{fixture.jpeg}}%
+\begin{wrapfigure}{r}{\wd\imagebox}
+  \centering
+  \usebox{\imagebox}
+  \captionof{figure}{\textcolor{btdarkblue}{Fixture: Box 1 Contents}}
+  \label{fig:fixture_box}
+\vspace{-10pt} 
+\end{wrapfigure}
+\textcolor{btblue}{There should be a single box of materials shipped that make up the entire fixture.  The box contains the fixture itself, a monitor, peripherals, and the boxed RA lamps for testing.}
+
+The entire fixture with computer and monitor should take up less than 1.25$m^2$ of area when assembled.  After verifying the contents of the boxes, plug the universal power cord into the rear of the fixture, and place the fixture
+onto a secure location on a table.  Assemble the mouse, keyboard, monitor, and Nuc computer on the table next to the fixture.\\[5mm]
+
+\sbox{\imagebox}{\includegraphics[width=0.5\textwidth, angle=-90, keepaspectratio]{padding.jpeg}}%
+\begin{wrapfigure}{l}{\wd\imagebox}
+  \centering
+  \usebox{\imagebox}
+  \captionof{figure}{\textcolor{btdarkblue}{S2D2 lamp padding}}
+  \label{fig:padding}
+\vspace{-36pt} 
+\end{wrapfigure}
+The fixture has the S2D2 lamp PT2862 installed, but is wrapped in padding for shipping transport.  Open the door of the fixture and unwrap the brown paper padding from the S2D2 lamp housing.  Reassemble the S2D2 lamp back in the enclosure as outlined in  section \ref{lampReassembly}.
+
+With the short network cable, connect the Nuc computer to the fixture using the network port on the back of the Nuc computer labeled ``instrument,'' directly to the network port on the back of the fixture.  
+At this point, plug the computer, the monitor, and the fixture into an available 120-220V power source.  Once plugged in, turn on the monitor, computer, and the fixture (with the power switch in the back where the power cord plugs in).
+
+\newpage
+You should see the desktop on the screen like this:
+\begin{center}
+  \includegraphics[width=.75\linewidth]{desktop.png}
+  % \captionof{figure}{Desktop View} % You can add a caption if needed
+  % \label{fig:desktop_view} % And a label
+\end{center}
+Ignore the ``Unidentified Network'' indicator for the windows network connections at the bottom of the page.  This is normal for connecting to the fixture.
+
+\subsection{Getting Started}
+\subsubsection{Navigating the Service Console}
+\begin{tikzpicture}
+\node[anchor=north west, text width=.5\textwidth] at (0,0){To get started with the basic operation functions of the fixture, double click with the mouse on the `Firefox' desktop icon.   The homepage is set to connect directly with the fixture through Firefox.
+
+Upon starting Firefox, you should see our service console with a list of various hyperlinks to different functions and folders on the fixture, as shown here to the right.
+
+The primary link that we use for operating the fixture to generate data from the S2D2 lamps are found under the \textcolor{blue}{Devices} page.
+
+When collecting the data, we will use the link of the \textcolor{blue}{Results Directory} page.
+
+Use the mouse and click on the link for the \textcolor{blue}{Devices} page.
+};
+\node[anchor=north west] (console) at (.55\textwidth,0){
+\begin{tikzpicture}
+\node[anchor=north west] at (0,0) {%
+  \includegraphics[height=.425\textheight, width=0.4\textwidth, keepaspectratio, clip,trim={0 3pt 30cm 0}]{firefox.jpg}
+};
+\draw[red,thick] (1cm,-158pt) ellipse [x radius=1cm, y radius=2mm];
+\draw[red,line width=1mm,<-] (2cm,-155pt) -- ++(20:1cm);
+\end{tikzpicture}};
+\end{tikzpicture}
+
+The \textcolor{blue}{Devices} page should appear as below.
+\begin{center}
+\begin{tikzpicture}%
+\node[anchor=north west] at (0,0) {%
+  \includegraphics[width=.9\textwidth,clip,trim={0 8cm 20cm 2pt}]{devices.jpg}
+};
+\draw[red,thick] (1cm,-90pt) ellipse [x radius=1cm, y radius=3.5mm];
+\draw[red,line width=1mm,<-] (2cm,-85pt) -- ++(20:1cm);
+\end{tikzpicture}
+\end{center}
+
+The two links we will use from this page (bookmark them if you prefer), will be the \textcolor{blue}{KiferIO} and the \textcolor{blue}{PointDetectorIO} pages.
+
+Right click on the \textcolor{blue}{PointDetectorIO} link and select `Open Link in New \underline{T}ab' and then left click on the \textcolor{blue}{KiferIO} link.\\
+
+
+The \textcolor{blue}{KiferIO} page appears as:
+\[%
+ \includegraphics[width=.7\textwidth,clip,trim={0 1cm 20cm 2pt}]{kiferIOlampOff.jpg}
+\]
+
+And the \textcolor{blue}{PointDetectorIO} page appears as:
+\[%
+ \includegraphics[width=.7\textwidth,clip,trim={0 10cm 30cm 2pt}]{pointdetectordefault.jpg}
+\]
+
+
+\subsection{Generating Lamp Data}
+In order to generate data and record power from the S2D2 lamps, the \textcolor{blue}{KiferIO} and \textcolor{blue}{PointDetectorIO} pages will be used to control the fixture's powering on of the S2D2 lamp and can be used for preliminary control of the lamp power data collection.
+
+\subsubsection{Preliminary Lamp Data}
+The S2D2 lamp On/Off is controlled directly from the \textcolor{blue}{KiferIO} page.  When powering on the fixture, you should notice that the \textbf{Deuterium Lamp} \textcolor{gray}{On} is greyed out, indicating that the lamp is \textit{not} on, as shown in the image below.
+\[\begin{tikzpicture}%
+\node[anchor=north west] at (0,0) {%
+  \includegraphics[width=.7\textwidth,clip,trim={0 8cm 20cm 2pt}]{kiferIOlampOff.jpg}
+};
+\draw[red,thick] (210pt,-169pt) ellipse [x radius=1cm, y radius=4.5mm];
+\draw[red,line width=1mm,<-] (210pt,-169pt)++(20:1cm) -- ++(20:1cm);
+\end{tikzpicture}\]
+
+Ensure that the front door of the fixture is closed (the lamp will not turn on if the door is open).  Use the mouse and left click the \tikz\node[fill=gray!30,rounded corners=3pt,rectangle,draw,font=\footnotesize]{On}; button; be aware that the lamp will start the warm-up process and can take up to 30 seconds to turn on.  When the lamp has turned on, the \textbf{On} indicator is now black as shown below.
+\[\begin{tikzpicture}%
+\node[anchor=north west] at (0,0) {%
+  \includegraphics[width=.7\textwidth,clip,trim={0 8cm 20cm 2pt}]{kiferIOlampOn.jpg}
+};
+\draw[red,thick] (210pt,-169pt) ellipse [x radius=1cm, y radius=4.5mm];
+\draw[red,line width=1mm,<-] (210pt,-169pt)++(20:1cm) -- ++(20:1cm);
+\end{tikzpicture}\]
+
+Return to the \textcolor{blue}{PointDetectorIO} page.  From here, you can control the integration chip.  
+
+The main controls are the \textbf{CycleTime} (bottom of the page), the \tikz\node[fill=gray!30,rounded corners=3pt,rectangle,draw,font=\footnotesize]{Start}; \& \tikz\node[fill=gray!30,rounded corners=3pt,rectangle,draw,font=\footnotesize]{Stop}; buttons, and the \textcolor{blue}{Chart} link near the top of the page.
+\[\begin{tikzpicture}%
+\node[anchor=north west] at (0,0) {%
+  \includegraphics[width=.7\textwidth,clip,trim={0 10cm 30cm 2pt}]{pointdetectordefault.jpg}
+};
+\draw[red,thick] (100pt,-218.5pt) ellipse [x radius=12mm, y radius=3.5mm];
+\draw[red,line width=1mm,<-] (100pt,-219pt)++(15:1cm) -- ++(20:1cm);
+\draw[red,thick] (45pt,-92pt) ellipse [x radius=15mm, y radius=3.5mm];
+\draw[red,line width=1mm,<-] (45pt,-92pt)++(5:15mm) -- ++(20:1cm);
+\end{tikzpicture}\]
+
+
+Change the \textbf{CycleTime} to the value 100000, representing 100ms cycle time on the integration chip\footnote{100ms is a good time for comparison of S2D2 lamps.  More integration time can be used (as can less) but too much can saturate the photodiode+integration chip system.}.  Left click with the mouse on the \tikz\node[fill=gray!30,rounded corners=3pt,rectangle,draw,font=\footnotesize]{Save}; button after entering the cycle time value.  Then left click with the mouse on the \tikz\node[fill=gray!30,rounded corners=3pt,rectangle,draw,font=\footnotesize]{Start}; button.  This will change the greyed out \textcolor{gray}{Running} to \textbf{Running} as shown below.  Also note the cycle time and $\mathbf{t8}$, the integration time at the bottom.
+\[\begin{tikzpicture}%
+\node[anchor=north west] at (0,0) {%
+  \includegraphics[width=.5\textwidth,clip,trim={0 10cm 30cm 2pt}]{pointdetector100msRunning.jpg}
+};
+\draw[red,thick] (37pt,-67pt) ellipse [x radius=13mm, y radius=2.8mm];
+\draw[red,line width=1mm,<-] (37pt,-67pt)++(5:13mm) -- ++(0:1cm);
+\end{tikzpicture}\]
+
+At this point, we have the S2D2 lamp on and with the point detector on we are collecting power output data for the S2D2 lamp.   We can verify this by left clicking with the mouse on the \textcolor{blue}{Chart} hyperlink.  This will open a new tab in Firefox with a chart displaying the real-time data as shown here.\\[1mm]
+\[%
+ \includegraphics[width=.7\textwidth,clip,trim={0 3cm 10cm 2pt}]{pointdetectorchart.jpg}
+\]
+
+For this fixture, we want to ensure that \tikz\node[fill=btblue!90,rounded corners=3pt,rectangle,draw,font=\footnotesize]{\textcolor{white}{CHNL1\_End}}; is selected.  When the lamp is on, the signal for \tikz\node[fill=btblue!90,rounded corners=3pt,rectangle,draw,font=\footnotesize]{\textcolor{white}{CHNL1\_End}}; should read above $3\times10^6$ integration (ADC) counts as shown above. If the lamp is \textit{not} on, the signal for \tikz\node[fill=btblue!90,rounded corners=3pt,rectangle,draw,font=\footnotesize]{\textcolor{white}{CHNL1\_End}}; should read around $1.4\times10^3$ integration (ADC) counts.\\[5pt]
+
+\noindent
+\begin{tikzpicture}
+\node[anchor=north west, text width=.5\textwidth] at (0,0){The graph of the data displayed in the \textcolor{blue}{Chart} page is only for heuristic purposes; this should be able to give a quick and dirty evaluation of the operation of the fixture.  The power data of the lamp is being stored in the file \textcolor{blue}{DataCollection.txt} under the \textcolor{blue}{Results Directory} link from the homepage.
+
+Using the mouse, return to the homepage and click on the link for the \textcolor{blue}{Results Directory}.
+};
+\node[anchor=north west] (console) at (.55\textwidth,0){
+\begin{tikzpicture}
+\node[anchor=north west] at (0,0) {%
+  \includegraphics[height=.425\textheight, width=0.4\textwidth, keepaspectratio, clip,trim={0 3pt 30cm 0}]{firefox.jpg}
+};
+\draw[red,thick] (12mm,-193pt) ellipse [x radius=1cm, y radius=2mm];
+\draw[red,line width=1mm,<-] (12mm,-193pt)++(1cm,3pt) -- ++(5:12mm);
+\end{tikzpicture}};
+\end{tikzpicture}
+
+The \textcolor{blue}{Results Directory} will contain a list of data files generated from the S2D2 lamp, but only the latest data file generated using the \textcolor{blue}{PointDetectorIO} will be retained since each time the \tikz\node[fill=gray!30,rounded corners=3pt,rectangle,draw,font=\footnotesize]{Start}; button  on the \textcolor{blue}{PointDetectorIO} is pressed, the file \textcolor{blue}{DataCollection.txt} shown below is overwritten.
+\[\begin{tikzpicture}%
+\node[anchor=north west] at (0,0) {%
+  \includegraphics[width=.9\textwidth,clip,trim={0 15cm 25cm 2pt}]{resultsDir.png}
+};
+\draw[red,thick] (1cm,-166pt) ellipse [x radius=13mm, y radius=2.8mm];
+\draw[red,line width=1mm,<-] (1cm,-166pt)++(-5:13mm) -- ++(-30:1cm);
+\end{tikzpicture}\]
+
+The other files listed in the \textcolor{blue}{Results Directory} are power data (ADC counts) for the S2D2 lamp generated in a different way which will be covered in the next section.
+
+\paragraph{Limitations of collecting S2D2 lamp data from the \textcolor{blue}{PointDetectorIO} page.}
+There are two severe limitations on collecting data from the \textcolor{blue}{PointDetectorIO} page.
+\begin{enumerate}
+	\item The power data is not stored persistently; as noted above, the data in the \textcolor{blue}{DataCollection.txt} is overwritten each time the \tikz\node[fill=gray!30,rounded corners=3pt,rectangle,draw,font=\footnotesize]{Start}; button is pressed.
+	\item There is a limitation on the memory allocated to this function in the embedded software.  This limitation is approximately 40 minutes of data collected; the workaround is covered next.
+\end{enumerate}
+
+
+\subsubsection{Extended Lamp Data Tools}
+In order to get around the limitations listed above, we are providing access to a python script which 
+\begin{enumerate}
+\item stores the data in a file with the timestamp as part of the name (so the file will not be overwritten) and 
+\item generates data for a longer time frame by stopping and re-starting the data collection process.
+\end{enumerate}
+This will allow the user to generate S2D2 lamp data for a longer amount of time on this fixture.
+
+\paragraph{Using PuTTY}
+From the Desktop, locate the PuTTY icon and double click the icon to start PuTTY.  The program should look as shown below.
+
+\[\begin{tikzpicture}%
+\node[anchor=north west] at (0,0) {%
+  \includegraphics[width=.75\textwidth,clip]{puttyConfig.jpg}
+};
+\draw[red,very thick] (55mm,-193pt) ellipse [x radius=15mm, y radius=2.8mm];
+\draw[red,line width=1mm,<-] (55mm,-193pt)++(-10:13mm) -- ++(-50:1cm);
+\end{tikzpicture}\]
+
+Double click on the saved \textbf{de0002 python shell}, which will automatically load the correct Hostname and Port.  This will bring up a python shell environment prompting for a password as shown below.
+\[%
+ \includegraphics[width=.9\textwidth,clip]{puttyWelcome.jpg}
+\]
+
+The case-sensitive password is:\[\textrm{Hamamatsu}\]
+
+\noindent After hitting enter, the python prompt \lstinline{>>>} will show.
+After hitting enter, the python prompt \lstinline{>>>} will show.
+\[%
+ \includegraphics[width=.9\textwidth]{puttyStart.png}
+\]
+The script needs to be loaded into memory prior to running.  The command to load the script into memory is
+\begin{itemize}
+\item \lstinline[frame=none]{>>> import mfgLampTest as collect}
+\end{itemize}
+
+The basic operation of the extended S2D2 lamp data collection script has the following operational commands:
+\begin{itemize}
+\item \lstinline{>>> collect.start()}
+\item \lstinline{>>> collect.stop()}
+\end{itemize}
+
+The `stop' command doesn't accept any parameters, but the `start command' accepts a decimal number of hours; the default time value is 1 hour.  For example:
+\begin{lstlisting}[title=Python Console,]
+>>> import mfgLampTest as collect   
+>>> collect.start(.05)  #This collects data for 5\% of an hour
+>>> collect.start(2)  	  #This collects data for 2 hours
+>>> collect.stop()	  #This stops the data collection at any point
+\end{lstlisting}
+
+\subsubsection{Generating Extended S2D2 Lamp Data}
+The Python script is already located on the fixture, and since we have PuTTY available, we are ready to start generating extended S2D2 lamp data. The procedure for generating extended S2D2 lamp data is as follows.
+
+\begin{enumerate}
+\item Power on the fixture and the Nuc computer attached to the fixture.
+\item Double click Firefox and wait until the fixture reports through Firefox with the Service Console.
+\item Navigate to the \textcolor{blue}{KiferIO} page (Click on the \textcolor{blue}{Devices} link, then the \textcolor{blue}{KiferIO} link).
+\item From the Desktop, double click the PuTTY icon and enter the password to login.
+\item Start four (4) hours\footnote{Or any length of time agreed upon to test lamps.} of data collection with the following Python console commands.
+\begin{lstlisting}[title=Python Console,]
+>>> import mfgLampTest as collect   
+>>> collect.start(4)  	
+\end{lstlisting}
+\item Return to Firefox at the \textcolor{blue}{KiferIO} page and left click the \textbf{Deuterium Lamp} \tikz\node[fill=gray!30,rounded corners=3pt,rectangle,draw,font=\footnotesize]{On}; button; wait 30 seconds until the greyed out \textcolor{gray}{On} indicator reports back as \textbf{On}.
+\item Close out the PuTTY terminal.
+\item Return to the fixture after four (4) hours have elapsed and left click the \textbf{Deuterium Lamp} \tikz\node[fill=gray!30,rounded corners=3pt,rectangle,draw,font=\footnotesize]{Off}; button. 
+\end{enumerate}
+
+\paragraph{Limitations of the Extended S2D2 Lamp Data.}
+The only drawback to the extended collection of lamp power output is that there is about a seven (7) second gap between when the memory buffer is full, prompting the script to close the writing of the data on the disk, and then restarting the lamp power data collection.  This does mean that there is a loss of data during this stopping and starting of the data collect recording.
+
+\newpage
+\subsection{Collecting Lamp Data}
+Now that the data has been recorded for four hours, we can now download the recorded data and analyze it.  
+
+\subsubsection{Transferring Collected Data}
+From the Desktop, double click the Firefox icon.  At the Firefox homepage, locate the \textcolor{blue}{Results Directory} and left click on that link.The page should appear like the image below, where the last set of data collected will have a timestamp in the name of the files corresponding to the files generated from the time the Python script collected extended lamp data.  For four hours of lamp data, there should be seven files generated as shown below.
+\[\begin{tikzpicture}%
+\node[anchor=north west] at (0,0) {%
+  \includegraphics[width=.9\textwidth,clip,trim={0 15cm 35cm 2pt}]{resultsDir.png}
+};
+\draw[line width=3pt,pen colour={red},decorate,decoration = {calligraphic brace, mirror}] (0,-5.7) -- (0,-9.1);
+\end{tikzpicture}\]
+
+Right click on each of the files generated, and from the Firefox context menu, select `Save Lin\underline{k} As\ldots' to whichever folder you choose.  The USB drive included with the fixture can be plugged in to the Nuc computer and used to transfer files to any computer where you want to perform general analysis of the S2D2 lamp power output.
+
+
+
+\subsection{General Care and Maintenance}
+%Overall, the general maintenance of the fixture is pretty simple.  General operational principles apply, such as operating the fixture at room temperatures, etc\ldots
+
+
+\subsubsection{Replacing the S2D2 Lamp}
+The main operation on this fixture beyond S2D2 power data collection is the replacement of the S2D2 lamps.  In order to replace the lamps, first open the door.  Immediately inside the door is the housing for the S2D2 lamp; the cover contains two screws.  Remove the two screws of the cover with the Phillips head screwdriver.
+\[%
+  \includegraphics[width=.45\textwidth,angle=270,clip,trim={5cm 1cm 5cm 1cm}]{first_screw.jpeg}
+  \qquad %
+  \includegraphics[width=.45\textwidth,angle=270,clip,trim={7cm 1cm 3cm 1cm}]{second_screw.jpeg}
+\]
+Inside is the custom S2D2 lamp housing (L10671H).
+\[%
+  \includegraphics[width=.40\textwidth,angle=270,clip,trim={5cm 1cm 5cm 1cm}]{housing.jpeg} % Adjusted width further if needed
+  \qquad %
+  \includegraphics[width=.40\textwidth,angle=270,clip,trim={5cm 1cm 5cm 1cm}]{cover_replacement.jpeg} % Adjusted width further if needed
+\]
+Since this is a Hamamatsu part, the replacement of the S2D2 lamp following this point is not covered.  Reassembly is the reverse of disassembly; please ensure that the five (5) cables to the S2D2 lamp socket pass through the cutout on the top of the cover as shown above and that the fiber optic passes cleanly through the cutout in the bottom of the enclosure.\label{lampReassembly}
+
+\subsubsection{Replacing the S2D2 Lamp Power Supply}
+The S2D2 lamp power supply (L10671P) is held in place with three M2.5 screws.  To access these three screws, you must remove the top piece of the power supply first.
+\[%
+ \includegraphics[width=.45\textwidth,angle=270,clip,trim={5cm 1cm 5cm 1cm}]{top_board.jpeg}
+\]
+Once the top board is removed, access to the three screws is enabled.  Again, since this is a Hamamatsu part, the replacement of the S2D2 lamp power supply following this point is not covered.  Reassembly is the reverse of disassembly.  Take care that the three plastic sleeves are installed between the power supply and the mounting ports.
+\[%
+ \includegraphics[width=.45\textwidth,angle=270,clip,trim={5cm 1cm 5cm 1cm}]{screw_one.jpeg}
+\]
+
+\end{document}
+
+
+
+%
+%
+%
+% height=\the\ht\imagebox
+%
+% width=\the\wd\imagebox

@@ -1,0 +1,274 @@
+\documentclass[landscape, DIV=6]{scrartcl}
+
+%\usepackage{fancyhdr}
+\usepackage[letterpaper,margin={2cm}]{geometry}
+\usepackage{graphicx}
+\usepackage{mathspec}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{wrapfig2}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{longtable}
+\usepackage{pdfpages}
+
+\setallmainfonts[Color=white]{Arial}
+\everymath{\color{white}}
+\everydisplay{\color{white}}
+
+\usepackage{tikz}
+\usetikzlibrary{matrix,calc}
+\tikzset{ 
+    table/.style={
+        matrix of nodes,
+        row sep=-\pgflinewidth,
+        column sep=-\pgflinewidth,
+        nodes={
+            rectangle,
+            draw=black,
+            align=left,
+            text width=.3\textwidth
+        },
+        minimum height=1.5em,
+        text depth=0.5ex,
+        text height=2ex,
+        nodes in empty cells,
+%%
+        every even row/.style={
+            nodes={fill=gray!20}
+        },
+        column 1/.style={
+            nodes={text width=.2\textwidth,font=\bfseries}
+        },
+        column 4/.style={
+            nodes={text width=.135\textwidth,font=\large\bfseries}
+        },
+        row 1/.style={
+            nodes={fill=black,text=white,font=\large\bfseries}
+        },
+    }
+}
+
+\usepackage{enumitem}
+\setenumerate[1]{label=\arabic*)}
+\setenumerate[2]{label*=(\arabic*)}
+\setlist[enumerate]{
+  itemindent=4cm,
+  leftmargin=\parindent,
+  rightmargin=15pt,
+  before=\setlength{\listparindent}{\leftmargin},
+  font=\huge\bfseries,
+}
+
+\pagestyle{plain}
+
+\definecolor{btblue}{HTML}{0034B7}
+\definecolor{btdarkblue}{HTML}{141A47}
+
+\usepackage[pagecolor=btblue]{pagecolor}
+
+%\pagestyle{empty}
+
+\usepackage{booktabs,colortbl}
+\arrayrulecolor{white}
+
+
+\newcommand{\coverslide}[3]{
+    \newpage
+    \begin{tikzpicture}[remember picture,overlay]
+    \node [rectangle, left color=btdarkblue, right color=btdarkblue!95!red, middle color=btblue, shading angle=45, inner sep=0pt, anchor=north west, minimum height=\paperheight, minimum width=\paperwidth, text width=.925\paperwidth] at (current page.north west){};
+    \node [anchor=north west] at ($(current page.north west)+ (13mm,-13mm)$) {\includegraphics[width=12cm]{ProteinSimple - lockup - white.png}};
+    \node [text width=.9\textwidth,anchor=west] at ($(current page.north west) + (3cm,-7cm)$) {\scalebox{2}{\textbf{#1}}};
+    \node [text width=.9\textwidth,anchor=west] at ($(current page.north west) + (3cm,-12cm)$) {\huge{#2}};
+    \node [text width=.9\textwidth,anchor=west] at ($(current page.south west) + (2cm,2cm)$) {{#3}};
+    \end{tikzpicture}
+}
+
+\newcommand{\newslide}[3][(1cm,0cm)]{
+    \newpage
+    \begin{tikzpicture}[remember picture,overlay]
+    \node [rectangle, left color=btdarkblue, right color=btblue, shading angle=135, inner sep=0pt, anchor=north, minimum height=.05\paperwidth, minimum width=\paperheight, rotate=90, text width=.925\paperheight] at (current page.west){\includegraphics[width=8mm,angle=270,origin=c]{Bio-Techne Emblem_Gradient bkgd_White emblem.png}\hfill #2 };
+    \node [text width=.9\textwidth] at ($(current page.center)+ #1$) {{#3}};
+    \end{tikzpicture}
+}
+
+\renewcommand{\footnoterule}{%
+  \kern -3pt
+  \color{white}
+  \hrule width .75\textwidth height .25pt
+  \kern 2pt
+}
+
+
+\newsavebox\imagebox
+
+
+\begin{document}  
+%\pagestyle{empty}
+\normalfont
+\fontsize{17.28pt}{22pt}\selectfont
+\coverslide{PS S2D2 lamp Fixture}{Verification of D2 Lamp Fixtures DE0102 \& DE0202, and Validation of Specifications for Noise on D2 fixture.}{\today{}}
+
+
+\newslide[(3mm,0mm)]{Dark Data}
+{%
+\textbf{\rule{0pt}{20pt}\Huge Dark Data}\\[5pt]
+The purpose in collecting Dark Data is to establish the systemic noise contributing to the noise of the D2 lamps, as well as to understand the contribution of the systemic noise to the overall lamp noise..\\[2pt]
+Dark noise can be collected either with the lamp on and the fiber disconnected, or with the lamp off.  Both sets were collected for about 45 minutes with no measurable difference between the two\footnote{Longer times for dark data show no differences, particularly, no discontinuities or jumps.}.\\[2pt]
+Summary - Mini Maurice:\\[2pt]
+\includegraphics[width=.9\textwidth,clip]{../mini maurice validation/dark noise fixture table.jpg}\\[4pt]
+Summary - Maurice Instrument:\\[2pt]
+\includegraphics[width=.9\textwidth,clip]{../mini maurice validation/dark noise instrument table.jpg}\\[4pt]
+}
+
+
+\newslide[(3mm,0mm)]{Lamp ON Data}
+{%
+\textbf{\rule{0pt}{20pt}\Huge Lamp ON Data}\\[5pt]
+On the Mini-Maurice fixtures, we saw Mean Noise values in the range of 700 to 1000 ADC counts on the reference channel and 500 to 700 ADC counts on the main channel.  Comparably, on the Maurice Instruments, we saw noise values in the range of 700 to 1000 ADC counts on the reference channel and 400 to 700 ADC counts on the main channel\footnote{One significant anomaly was lamp PU8748 on MM0132, where the mean values were an order of magnitude higher for both ref and main.}.\\
+The Max Noise values are a little different; the Mini-Maurice fixtures had Max Noise values in the range of 800 to 3000 ADC counts on the reference channel, excluding the significant anomaly of lamp PU8786.  The main channel had a range of 800 to 5000 ADC on the Mini-Maurice, also excluding lamp PU8786.\\
+The Maurice instruments had Max Noise values for the reference channel in the range of 1000 to 3500 ADC counts, lamps PU8748 \& PU8769 excluded.  The Max Noise values in the main channel were in the range from 500 to 4500 ADC counts.
+% Comparison\\
+% Details\\[5pt]
+% Anomalous runs removed from these.\\[2pt]
+}
+
+
+\newslide[(3mm,0mm)]{Lamp ON Data}
+{%
+Summary - Mini Maurice:\\[2pt]
+\includegraphics[width=.9\textwidth,clip]{../mini maurice validation/fixture noise table.jpg}\\[4pt]
+Summary - Maurice Instrument:\\[2pt]
+\includegraphics[width=.9\textwidth,clip]{../mini maurice validation/instrument noise table.jpg}\\[4pt]
+}
+
+
+
+\newslide[(3mm,0mm)]{Noise Parameters}
+{%
+\textbf{\rule{0pt}{20pt}\Huge Comparison of noise parameters to Lamp Specs}\\[5pt]
+The proper way to do comparison of the noise we measure on our instruments is to decouple the systemic noise from the lamp noise, then compare the normalized noise; we aren't able to decouple the noise, but we can make estimates.\\[3pt]  
+As a general rule, the noise can be represented as a sum of squares of noise from the lamp and noise from the system.  The data collected shows our systemic noise to be about 20\% of the signal noise; allowing the possibility that the systemic noise is roughly the same as the noise from the lamp, we would expect the noise of the lamp to be approximately 71\% of the measured noise and systemic noise to also be 71\% of the measured noise.  \\[6pt]
+}
+
+
+
+\newslide[(3mm,0mm)]{Noise Parameters}
+{%
+This yields an estimate for the noise contribution from the D2 lamps of Mean Noise in the range of 500 to 700 ADC counts for the reference channel; 350 to 500 ADC counts on the main channel.\\[5pt]
+Normalizing these values to our maximum ADC range of $2^{23}$ yields an estimate of $0.004\%$ to $0.008\%$ Mean Noise from the lamps\footnote{Here, the P-P noise is roughly twice the value of sum-of-squares noise, but we are also normalizing to $2^{23}$ which is also roughly twice the mean values of the lamp intensity ADC measured output; hence both factors should approximately cancel each other.}.\\[5pt]
+Hamamatsu's specs for the D2 Lamp: 
+\[\textrm{Output Stability at 230nm - Fluctuation (P-P) typ. 0.005\%}\]
+}
+
+
+\newslide[(3mm,0mm)]{Noise Parameters}
+{%
+Looking only at the high end of these estimates, measured Mean Noise values at 1000 ADC counts on the reference channel yields a normalized Mean Noise value of $0.008\%$ which is acceptable for our purposes.\\[7pt]
+For our assays, we want to minimize the Max Noise parameter, since ``significant'' fluctuations in the lamp intensity can cause false protein detection.
+}
+
+
+\newslide[(3mm,0mm)]{Noise Parameters}
+{%
+Estimating a Max Noise parameter based on a subjective evaluation of our assays, fluctuations that are greater than twice the Mean Noise values can trigger false protein detection.   This means that we would like to limit the measured Max Noise to less than 2000 ADC counts, or a normalized value of $0.015\%$.
+}
+
+
+\newslide[(3mm,0mm)]{Proposed Noise Parameters}
+{%
+The following table lists our proposed noise parameters for D2 lamps on the Mini-Maurice.\\[5pt]
+\rule{3cm}{0pt}
+\begin{tabular}{lll}
+Parameter & ADC Counts & Normalized Value \\
+\midrule
+Mean Noise & $\leq 1000$ & $\approx 0.008\%$\\
+Max Noise & $\leq 2000$ & $\approx 0.015\%$
+\end{tabular}
+}
+
+
+% \newslide[(3mm,0mm)]{Noise Parameters}
+% {%
+% Normed to Mean ADC counts - Mini Maurice:\\[2pt]
+% \includegraphics[width=.9\textwidth,clip]{../mini maurice validation/fixture normed noise table.jpg}\\[4pt]
+% Normed to Mean ADC counts - Maurice Instrument:\\[2pt]
+% \includegraphics[width=.9\textwidth,clip]{../mini maurice validation/instrument normed noise table.jpg}\\[4pt]
+% }
+
+
+% \newslide[(3mm,0mm)]{Lamp ON Data}
+% {%
+% \textbf{\rule{0pt}{20pt}\Huge Anomalous Run Data}\\[5pt]
+% Anomalous runs - Mini Maurice:\\[2pt]
+% \includegraphics[width=.9\textwidth,clip]{../mini maurice validation/fixture noise abnormalities table.jpg}\\[4pt]
+% Anomalous runs -  Maurice Instrument:\\[2pt]
+% \includegraphics[width=.9\textwidth,clip]{../mini maurice validation/instrument noise abnormalities table.jpg}\\[4pt]
+% }
+
+
+% \newslide[(3mm,0mm)]{Dark Data}
+% {%
+% \textbf{\rule{0pt}{20pt}\Huge Dark Data}\\[5pt]
+
+% \includegraphics[width=.9\textwidth,clip]{../mini maurice validation/Dark Noise.jpg}
+% }
+
+
+
+% \newslide[(3mm,0mm)]{Mini Maurice Noise}
+% {%
+% \textbf{\rule{0pt}{20pt}\Huge DE0102 Fixture Noise Table}\\[5pt]
+
+% \includegraphics[width=.9\textwidth,clip]{../mini maurice validation/de0102 Noise.jpg}
+% }
+
+
+
+% \newslide[(3mm,0mm)]{Mini Maurice Noise}
+% {%
+% \textbf{\rule{0pt}{20pt}\Huge DE0202 Fixture Noise Table}\\[5pt]
+
+% \includegraphics[width=.9\textwidth,clip]{../mini maurice validation/de0202 Noise.jpg}
+% }
+
+
+
+% \newslide[(3mm,0mm)]{Maurice Noise}
+% {%
+% \textbf{\rule{0pt}{20pt}\Huge KF1776 Instrument Noise Table}\\[5pt]
+
+% \includegraphics[width=.9\textwidth,clip]{../mini maurice validation/kf1776 Noise.jpg}
+% }
+
+
+
+% \newslide[(3mm,0mm)]{Maurice Noise}
+% {%
+% \textbf{\rule{0pt}{20pt}\Huge MM0132 Instrument Noise Table}\\[5pt]
+
+% \includegraphics[width=.9\textwidth,clip]{../mini maurice validation/mm0132 Noise.jpg}
+% }
+
+
+\includepdf[pages=-]{../mini maurice validation/lampData.pdf}
+\end{document}
+
+
+
+
+
+
+
+\begin{tikzpicture}
+\node[anchor=north west] at (0,0) {\includegraphics[height=.425\textheight,clip,trim={0 3pt 30cm 0}]{../screenshots/puttyConfig.jpg}};
+\draw[red,thick] (1cm,-158pt) ellipse [x radius=1cm, y radius=2mm];
+\end{tikzpicture}
+
+
+\sbox{\imagebox}{\includegraphics[width=.7\textwidth,clip]{../screenshots/puttyConfig.jpg}}
+
+height=\the\ht\imagebox
+
+width=\the\wd\imagebox
