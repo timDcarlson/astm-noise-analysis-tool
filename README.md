@@ -162,7 +162,7 @@ The application expects tab-delimited text files with:
 
 ## Advanced Features
 
-- **Portable Environment**: Virtual environment stored outside OneDrive for compatibility
+- **Portable Environment**: Virtual environment 
 - **Error Handling**: Silent error handling for corrupted or missing files
 - **Memory Efficient**: Processes large datasets without memory issues
 - **Cross-Platform**: Works on Windows with both PowerShell and Command Prompt
@@ -174,7 +174,6 @@ The application expects tab-delimited text files with:
 - **Batch file issues**: Try running the .bat files from Command Prompt instead of PowerShell
 - **Python not found**: Make sure Python is installed and added to PATH
 - **Virtual environments**: Stored in `%USERPROFILE%\Documents\Python Environments\`
-- **OneDrive conflicts**: The environments are created outside OneDrive to avoid syncing conflicts
 - **GUI doesn't appear**: Check that tkinter is properly installed with your Python distribution
 - **Import errors**: Run `setup_env.ps1` to ensure all dependencies are installed
 - **Plot windows not appearing**: Check if windows are opening behind other applications
