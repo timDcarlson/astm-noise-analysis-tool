@@ -5,7 +5,7 @@ All notable changes to the ASTM Noise Analysis Tool will be documented in this f
 ## [3.1.0] - 2025-07-15
 
 ### Added
-- Individual windows for each high noise interval plot (600x700 geometry)
+- Individual windows for each high noise interval plot 
 - 10-second padding around noise intervals for better visualization
 - Comprehensive performance optimizations using NumPy arrays
 - Export functionality for individual interval plots
@@ -21,8 +21,6 @@ All notable changes to the ASTM Noise Analysis Tool will be documented in this f
 - Upgraded export functionality with timestamped filenames
 
 ### Fixed
-- Resolved "cannot access local variable 'glob'" scope error
-- Fixed NumPy array boolean context ambiguity issues
 - Improved error handling for file processing
 - Better handling of edge cases in data loading
 

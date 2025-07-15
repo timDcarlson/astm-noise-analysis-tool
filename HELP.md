@@ -19,21 +19,6 @@ Runs the analysis with both plots:
 - ASTM Noise Interval plot (60-minute window)
 - Complete Dataset plot (all files in folder, displayed in hours)
 
-```powershell
-.\run_astm_noise.ps1 -ShowHighNoiseIntervals
-```
-Identifies and highlights the highest noise intervals (must specify number with -NIntervals).
-
-```powershell
-.\run_astm_noise.ps1 -Intervals -NIntervals 5
-```
-Shows the top 5 highest noise intervals.
-
-```powershell
-.\run_astm_noise.ps1 -Show -Intervals -NIntervals 3
-```
-Combines complete dataset display with top 3 high noise interval analysis.
-
 ### Help
 ```powershell
 .\run_astm_noise.ps1 -Help
@@ -45,21 +30,9 @@ Shows this help information.
 | Option | Short | Description |
 |--------|-------|-------------|
 | `-ShowCompleteDataset` | `-Show` | Display both ASTM interval and complete dataset plots |
-| `-ShowHighNoiseIntervals` | `-Intervals` | Identify and highlight highest noise intervals |
-| `-NIntervals <number>` | | Number of high noise intervals to display (default: 0) |
 | `-Help` | `-h` | Show this help information |
 
-## High Noise Interval Analysis
-
-When using `-ShowHighNoiseIntervals`, the tool provides additional diagnostic capabilities with two analysis modes:
-
-### Mode 1: Top N Intervals
-```powershell
-.\run_astm_noise.ps1 -Intervals -NIntervals 10
-```
-Shows the 10 highest noise intervals found across all data.
-
-### Mode 2: Threshold-Based Analysis
+### Threshold-Based Analysis
 ```powershell
 .\run_astm_noise.ps1 -Intervals -NoiseThreshold 1200
 ```
@@ -79,12 +52,11 @@ Shows ALL intervals where noise exceeds 1200 (or any specified threshold).
 This feature is particularly useful for:
 - Quality control and identifying problematic measurement periods
 - Troubleshooting equipment issues
-- Correlating high noise with external factors (temperature, vibration, etc.)
 - Setting acceptance criteria based on noise thresholds
 
 ## What the Tool Does
 
-1. **File Selection**: Prompts you to select the first tab-delimited data file (`*.txt`)
+1. **File Selection**: Prompts you to select the first tab-delimited data file after warm-up period (`*.txt`)
 2. **Automatic File Processing**: 
    - Automatically finds and processes subsequent data files in the same directory
    - Files are processed in chronological order based on timestamps in filenames
