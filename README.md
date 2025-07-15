@@ -22,7 +22,6 @@ A Python-based tool for analyzing noise in lamp data according to ASTM standards
 1. **Download the Project**:
    - Download the ZIP file containing all project files
    - Choose a good location on your computer (e.g., `C:\Tools\ASTM-Noise-Analysis` or `C:\Users\[username]\Documents\ASTM-Noise-Analysis`)
-   - **Avoid OneDrive folders** - Extract to a local folder to prevent syncing conflicts
    - Right-click the ZIP file and select "Extract All..."
    - Navigate to the extracted folder in File Explorer
 
