@@ -37,6 +37,11 @@ if ($Help -or $h) {
         Write-Host "  -NoiseThreshold <value>          Show all intervals above this threshold (alternative to -NIntervals)"
         Write-Host "  -Help, -h                        Show help information"
         Write-Host ""
+        Write-Host "GUI Features:" -ForegroundColor Yellow
+        Write-Host "  • Select All Files checkbox      Quickly select all files for comprehensive noise analysis"
+        Write-Host "  • Individual file selection      Choose specific files for targeted analysis"
+        Write-Host "  • Noise statistics limited to    0-3600 second timeframe (matching ASTM standard)"
+        Write-Host ""
         Write-Host "For detailed documentation, see HELP.md" -ForegroundColor Cyan
     }
     return

@@ -169,11 +169,20 @@ try {
     Write-Host "  Error: Failed to create ZIP: $_" -ForegroundColor Red
 }
 
+# Clean up temporary package directory
+Write-Host ""
+Write-Host "Cleaning up temporary files..." -ForegroundColor Cyan
+try {
+    Remove-Item $packagePath -Recurse -Force
+    Write-Host "  Success: Removed temporary directory $packageName" -ForegroundColor Green
+} catch {
+    Write-Host "  Warning: Could not remove temporary directory: $_" -ForegroundColor Yellow
+}
+
 # Final summary
 Write-Host ""
 Write-Host "Distribution Package Complete!" -ForegroundColor Green
 Write-Host "===========================================" -ForegroundColor Green
-Write-Host "Package folder: $packageName" -ForegroundColor White
 Write-Host "ZIP archive: $zipPath" -ForegroundColor White
 Write-Host "Files included: $copiedCount" -ForegroundColor White
 Write-Host "Package size: $totalSizeMB MB" -ForegroundColor White

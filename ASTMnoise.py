@@ -217,9 +217,26 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
     # Remove the old file index increment since we're using enumerate now
     # file_index += 1
 
-    # Truncate the lists if they are longer than 120
-    main_noise_truncated = all_main_noise_values[:120]
-    ref_noise_truncated = all_ref_noise_values[:120]
+    # Filter noise values to only include those from the first 3600 seconds (matching high noise interval logic)
+    main_noise_3600s = []
+    ref_noise_3600s = []
+    
+    # Extract noise values only from intervals within 0-3600 seconds
+    for start_time, end_time, noise_val, file_idx, channel, filename in main_noise_intervals:
+        if 0 <= start_time <= 3600:
+            main_noise_3600s.append(noise_val)
+    
+    for start_time, end_time, noise_val, file_idx, channel, filename in ref_noise_intervals:
+        if 0 <= start_time <= 3600:
+            ref_noise_3600s.append(noise_val)
+    
+    # Truncate to first 120 intervals from the 3600-second timeframe
+    main_noise_truncated = main_noise_3600s[:120]
+    ref_noise_truncated = ref_noise_3600s[:120]
+    
+    print(f"\nNoise statistics calculated from 3600-second timeframe:")
+    print(f"Main Channel: {len(main_noise_truncated)} intervals (from 0-3600s)")
+    print(f"Reference Channel: {len(ref_noise_truncated)} intervals (from 0-3600s)")
 
     main_mean = np.mean(main_noise_truncated) if main_noise_truncated else np.nan
     main_max = np.max(main_noise_truncated) if main_noise_truncated else np.nan
@@ -309,7 +326,7 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
             interval_window.title(f"High Noise Intervals (Above {noise_threshold})")
         else:
             interval_window.title("High Noise Intervals")
-        interval_window.geometry("900x700")  # Made wider and taller for file selection and buttons
+        interval_window.geometry("900x800")  # Made wider and taller for file selection and buttons
         
         # Create main frame to hold text area and buttons separately
         main_frame = tk.Frame(interval_window)
@@ -396,6 +413,7 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         # Create checkboxes for each file in the scrollable frame
         file_checkboxes = {}  # Dictionary to store checkbox variables
         
+        # First, create the individual file checkboxes
         for i, filepath in enumerate(all_available_files):
             filename = os.path.basename(filepath)
             var = tk.BooleanVar()
@@ -404,6 +422,48 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
             checkbox.pack(fill="x", padx=5, pady=1)
             checkbox.bind("<MouseWheel>", _on_mousewheel)  # Add mouse wheel support to each checkbox
             file_checkboxes[filepath] = var
+
+        # Add "Select All Files" checkbox after individual checkboxes are created
+        select_all_frame = tk.Frame(file_selection_frame)
+        select_all_frame.pack(fill=tk.X, pady=(5, 0))
+        
+        select_all_var = tk.BooleanVar()
+        
+        def update_select_all_state():
+            """Update Select All checkbox based on individual file selections"""
+            total_files = len(file_checkboxes)
+            selected_files = sum(1 for var in file_checkboxes.values() if var.get())
+            
+            if selected_files == 0:
+                select_all_var.set(False)
+            elif selected_files == total_files:
+                select_all_var.set(True)
+            # For partial selection, we could add an indeterminate state, but keeping it simple
+        
+        def toggle_all_files():
+            """Toggle all file checkboxes based on Select All state"""
+            select_all_state = select_all_var.get()
+            for var in file_checkboxes.values():
+                var.set(select_all_state)
+        
+        select_all_checkbox = tk.Checkbutton(select_all_frame, 
+                                           text="☑ Select All Files (Compute noise for entire dataset)", 
+                                           variable=select_all_var,
+                                           command=toggle_all_files,
+                                           font=("Arial", 10, "bold"),
+                                           fg="blue")
+        select_all_checkbox.pack(anchor=tk.W, padx=5)
+        
+        # Add helpful information label
+        info_label = tk.Label(select_all_frame, 
+                             text="Tip: Use 'Select All Files' to analyze noise values for the complete dataset",
+                             font=("Arial", 9, "italic"),
+                             fg="gray")
+        info_label.pack(anchor=tk.W, padx=20)
+        
+        # Now add the trace callbacks to individual checkboxes to update select all state
+        for var in file_checkboxes.values():
+            var.trace_add('write', lambda *args: update_select_all_state())
         
         # Add button to plot 30-second intervals
         def plot_30_second_intervals():
@@ -631,7 +691,7 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         try:
             with open(output_filename, 'w', newline='') as csvfile:
                 writer = csv.writer(csvfile)
-                writer.writerow(['Channel', 'Mean', 'Max'])
+                writer.writerow(['Channel', 'Mean (0-3600s)', 'Max (0-3600s)'])
                 writer.writerow(['Main', main_mean, main_max])
                 writer.writerow(['Reference', ref_mean, ref_max])
         except Exception as e:
@@ -809,7 +869,7 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         # Create separate window for ASTM noise plot
         astm_window = tk.Toplevel()
         astm_window.title("ASTM Noise Interval Plot")
-        astm_window.geometry("900x600")
+        astm_window.geometry("1200x600")
         
         # Create figure and adjust right margin
         fig = Figure(figsize=(6, 4))
@@ -863,8 +923,8 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         vline = ax1.axvline(x=60, color='red', linestyle='--', linewidth=2, alpha=0.7, label='ASTM Time Interval limit')
 
         # Legend outside right - include high noise intervals if present
-        main_label = f"Main\nNoise Mean: {main_mean:.3f}\nNoise Max: {main_max:.3f}"
-        ref_label = f"Reference\nNoise Mean: {ref_mean:.3f}\nNoise Max: {ref_max:.3f}"
+        main_label = f"Main\nNoise Mean (0-3600s): {main_mean:.3f}\nNoise Max (0-3600s): {main_max:.3f}"
+        ref_label = f"Reference\nNoise Mean (0-3600s): {ref_mean:.3f}\nNoise Max (0-3600s): {ref_max:.3f}"
         
         legend_items = [pts1, pts2, vline]
         legend_labels = [main_label, ref_label, "ASTM time limit"]
@@ -1031,8 +1091,8 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
             vline_green = None
 
         # Legend outside right
-        main_label = f"Main\nNoise Mean: {main_mean:.3f}\nNoise Max: {main_max:.3f}"
-        ref_label = f"Reference\nNoise Mean: {ref_mean:.3f}\nNoise Max: {ref_max:.3f}"
+        main_label = f"Main\nNoise Mean (0-3600s): {main_mean:.3f}\nNoise Max (0-3600s): {main_max:.3f}"
+        ref_label = f"Reference\nNoise Mean (0-3600s): {ref_mean:.3f}\nNoise Max (0-3600s): {ref_max:.3f}"
         
         # Build legend based on which lines exist
         legend_items = [pts1, pts2]
@@ -1070,7 +1130,7 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
             # Create separate window for complete dataset plot
             complete_window = tk.Toplevel()
             complete_window.title("Complete Dataset Plot")
-            complete_window.geometry("900x600")
+            complete_window.geometry("1200x600")
             
             canvas2 = FigureCanvasTkAgg(all_files_fig, master=complete_window)
             canvas2.draw()
