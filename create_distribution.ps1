@@ -2,7 +2,7 @@
 # This script creates a clean distribution package
 
 param(
-    [string]$Version = "3.1.0",
+    [string]$Version = "3.1.1",
     [switch]$SkipTests
 )
 
