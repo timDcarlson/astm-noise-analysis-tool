@@ -4,7 +4,7 @@ ASTM Noise Analysis Tool
 A Python-based tool for analyzing noise in deuterium lamp data according to ASTM standards.
 Provides GUI interface for loading data files, calculating noise parameters, and visualizing results.
 
-Version: 3.1.0
+Version: 3.1.1
 Author: Tim Carlson
 """
 
@@ -25,7 +25,7 @@ from convexHull import calculate_max_noise
 from config import APP_VERSION, APP_NAME
 
 
-def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noise_intervals=False, n_intervals=0, noise_threshold=None):
+def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noise_intervals=False, n_intervals=0, noise_threshold=None, max_intervals_to_plot=8):
     """
     Prompts for tab-delimited files, skips the header, analyzes subsets,
     and continues until enough noise values are collected, then exports to CSV.
@@ -35,6 +35,7 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         show_high_noise_intervals (bool): Whether to show plot of highest noise intervals (default: False)
         n_intervals (int): Number of highest noise intervals to track and plot (default: 0)
         noise_threshold (float): Threshold value - show all intervals above this noise level (default: None)
+        max_intervals_to_plot (int): Maximum number of intervals to plot in detailed view (default: 8)
     """
     all_main_noise_values = []
     all_ref_noise_values = []
@@ -406,7 +407,18 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         
         # Add button to plot 30-second intervals
         def plot_30_second_intervals():
-            plot_detailed_intervals(sorted_groups, raw_t_main, raw_i_main, raw_t_ref, raw_i_ref, output_directory)
+            # Get the max intervals value from the popup window's entry field
+            try:
+                max_intervals = int(max_intervals_var.get())
+                if max_intervals <= 0:
+                    raise ValueError("Max intervals must be positive")
+            except ValueError:
+                messagebox.showerror("Invalid Input", 
+                                   "Please enter a valid positive number for max intervals to plot.")
+                return
+            
+            # Use the max_intervals value when high noise intervals are shown
+            plot_detailed_intervals(sorted_groups, raw_t_main, raw_i_main, raw_t_ref, raw_i_ref, output_directory, max_intervals)
         
         # Function to compute noise values for selected files
         def compute_selected_file_noise():
@@ -527,6 +539,26 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
                                                   command=export_file_noise_results, bg="lightgreen")
             export_file_results_button.pack(pady=5)
         
+        # Add configuration frame for plot options
+        config_frame = tk.Frame(main_frame)
+        config_frame.pack(fill=tk.X, pady=(0, 10))
+        
+        config_label = tk.Label(config_frame, text="Plot Configuration:", 
+                               font=("Arial", 10, "bold"))
+        config_label.pack(anchor=tk.W)
+        
+        # Max intervals to plot
+        intervals_config_frame = tk.Frame(config_frame)
+        intervals_config_frame.pack(fill=tk.X, pady=2)
+        
+        intervals_label = tk.Label(intervals_config_frame, text="Max intervals to plot:", 
+                                  font=("Arial", 10))
+        intervals_label.pack(side=tk.LEFT)
+        
+        max_intervals_var = tk.StringVar(value=str(max_intervals_to_plot))
+        max_intervals_entry = tk.Entry(intervals_config_frame, textvariable=max_intervals_var, width=8)
+        max_intervals_entry.pack(side=tk.LEFT, padx=(5, 0))
+        
         # Create button frame that spans the full width
         button_frame = tk.Frame(main_frame)
         button_frame.pack(fill=tk.X, pady=5)
@@ -608,14 +640,30 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         messagebox.showinfo("No Export", "No data file was successfully selected, so results were not exported.")
 
     # === Function to plot detailed 30-second intervals ===
-    def plot_detailed_intervals(interval_groups, t_main, i_main, t_ref, i_ref, output_dir):
-        """Plot detailed view of high noise 30-second intervals - each in separate window"""
+    def plot_detailed_intervals(interval_groups, t_main, i_main, t_ref, i_ref, output_dir, max_intervals=None):
+        """Plot detailed view of high noise 30-second intervals - each in separate window
+        
+        Args:
+            interval_groups: List of interval dictionaries to plot
+            t_main, i_main: Time and intensity data for main channel
+            t_ref, i_ref: Time and intensity data for reference channel
+            output_dir: Directory for saving plots
+            max_intervals: Maximum number of intervals to plot (default: None for all)
+        """
         n_intervals = len(interval_groups)
         if n_intervals == 0:
             return
         
+        # Limit the number of intervals if max_intervals is specified
+        if max_intervals is not None and max_intervals > 0:
+            intervals_to_plot = interval_groups[:max_intervals]
+            if n_intervals > max_intervals:
+                print(f"Limiting plot to highest {max_intervals} of {n_intervals} intervals")
+        else:
+            intervals_to_plot = interval_groups
+        
         # Create separate window for each interval
-        for i, group in enumerate(interval_groups):
+        for i, group in enumerate(intervals_to_plot):
             # Create individual window for this interval
             detail_window = tk.Toplevel()
             detail_window.title(f"Interval {i+1}: {group['start_time']/60.0:.1f}-{group['end_time']/60.0:.1f} min")
@@ -1153,6 +1201,7 @@ def create_gui():
             # Determine interval parameters (threshold method only)
             n_intervals = 0
             noise_threshold = None
+            max_intervals_to_plot = 8  # Default value for GUI mode
             
             if show_intervals:
                 try:
@@ -1173,7 +1222,8 @@ def create_gui():
                 show_complete_dataset=show_complete,
                 show_high_noise_intervals=show_intervals,
                 n_intervals=n_intervals,
-                noise_threshold=noise_threshold
+                noise_threshold=noise_threshold,
+                max_intervals_to_plot=max_intervals_to_plot
             )
             
             # Update status
@@ -1223,10 +1273,57 @@ def create_gui():
 
 
 def main():
-    """Main function with GUI interface"""
-    # Create and run the GUI
-    root = create_gui()
-    root.mainloop()
+    """Main function with both GUI and command-line interface"""
+    import sys
+    
+    # Check for command line arguments
+    if len(sys.argv) > 1:
+        # Parse command line arguments
+        show_complete_dataset = '--show-complete-dataset' in sys.argv
+        show_high_noise_intervals = '--show-high-noise-intervals' in sys.argv
+        
+        # Parse n_intervals parameter
+        n_intervals = 8  # Default value
+        if '--n-intervals' in sys.argv:
+            try:
+                idx = sys.argv.index('--n-intervals')
+                if idx + 1 < len(sys.argv):
+                    n_intervals = int(sys.argv[idx + 1])
+            except (ValueError, IndexError):
+                n_intervals = 8
+        
+        # Parse noise_threshold parameter
+        noise_threshold = None
+        if '--noise-threshold' in sys.argv:
+            try:
+                idx = sys.argv.index('--noise-threshold')
+                if idx + 1 < len(sys.argv):
+                    noise_threshold = float(sys.argv[idx + 1])
+            except (ValueError, IndexError):
+                noise_threshold = None
+        
+        # Parse max_intervals_to_plot parameter
+        max_intervals_to_plot = 8  # Default value
+        if '--max-intervals-to-plot' in sys.argv:
+            try:
+                idx = sys.argv.index('--max-intervals-to-plot')
+                if idx + 1 < len(sys.argv):
+                    max_intervals_to_plot = int(sys.argv[idx + 1])
+            except (ValueError, IndexError):
+                max_intervals_to_plot = 8
+        
+        # Run with command line arguments
+        load_and_calculate_noise_multiple(
+            show_complete_dataset=show_complete_dataset,
+            show_high_noise_intervals=show_high_noise_intervals,
+            n_intervals=n_intervals,
+            noise_threshold=noise_threshold,
+            max_intervals_to_plot=max_intervals_to_plot
+        )
+    else:
+        # Create and run the GUI
+        root = create_gui()
+        root.mainloop()
 
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@ ASTM Noise Analysis Tool - Main Application Entry Point
 A refactored version of the ASTM noise analysis tool with modular architecture.
 This main script provides the entry point and command-line interface.
 
-Version: 3.1.0
+Version: 3.1.1
 Author: Tim Carlson
 """
 

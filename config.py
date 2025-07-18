@@ -1,7 +1,7 @@
 """ASTM Noise Analysis Tool - Configuration and Constants
 """
 
-__version__ = "3.1.0"
+__version__ = "3.1.1"
 
 # Application metadata
 APP_NAME = "ASTM Noise Analysis Tool"
@@ -13,6 +13,7 @@ DEFAULT_SUBSET_SIZE = 30  # seconds
 DEFAULT_NOISE_THRESHOLD = 1200
 DEFAULT_TIME_BUFFER = 10  # seconds padding around intervals
 DEFAULT_MAX_INTERVALS = 120
+DEFAULT_MAX_INTERVALS_TO_PLOT = 8  # Maximum number of detailed interval plots
 
 # Window geometry
 MAIN_WINDOW_SIZE = "650x500"

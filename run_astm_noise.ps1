@@ -6,6 +6,7 @@ param(
     [switch]$ShowHighNoiseIntervals,
     [switch]$Intervals,  # Short alias for ShowHighNoiseIntervals
     [int]$NIntervals = 0,  # Number of intervals to show
+    [int]$MaxIntervalsToPlot = 8,  # Maximum number of intervals to plot in detailed view
     [double]$NoiseThreshold = $null,  # Threshold value for noise intervals
     [switch]$Help,
     [switch]$h      # Short alias for Help
@@ -25,12 +26,14 @@ if ($Help -or $h) {
         Write-Host "  .\run_astm_noise.ps1 -ShowHighNoiseIntervals    - Show high noise intervals"
         Write-Host "  .\run_astm_noise.ps1 -Intervals -NIntervals 10  - Show top 10 noise intervals"
         Write-Host "  .\run_astm_noise.ps1 -Intervals -NoiseThreshold 1200  - Show all intervals above 1200"
+        Write-Host "  .\run_astm_noise.ps1 -Intervals -MaxIntervalsToPlot 5  - Plot only 5 highest intervals"
         Write-Host "  .\run_astm_noise.ps1 -Help                      - Show this help"
         Write-Host ""
         Write-Host "Options:" -ForegroundColor Yellow
         Write-Host "  -ShowCompleteDataset, -Show      Display both ASTM interval and complete dataset plots"
         Write-Host "  -ShowHighNoiseIntervals, -Intervals  Identify and highlight highest noise intervals"
         Write-Host "  -NIntervals <number>             Number of high noise intervals to display (default: 0)"
+        Write-Host "  -MaxIntervalsToPlot <number>     Maximum intervals to plot when using -Intervals (default: 8)"
         Write-Host "  -NoiseThreshold <value>          Show all intervals above this threshold (alternative to -NIntervals)"
         Write-Host "  -Help, -h                        Show help information"
         Write-Host ""
@@ -62,6 +65,7 @@ if ($ShowHighNoiseIntervals) {
     } else {
         $modeInfo += "High noise intervals (no specific criteria)"
     }
+    $modeInfo += "Plot limit: $MaxIntervalsToPlot intervals"
 }
 
 if ($modeInfo.Count -eq 0) {
@@ -93,6 +97,9 @@ if ($ShowHighNoiseIntervals) {
         $arguments += "--n-intervals"
         $arguments += $NIntervals.ToString()
     }
+    # Only add max-intervals-to-plot when showing high noise intervals
+    $arguments += "--max-intervals-to-plot"
+    $arguments += $MaxIntervalsToPlot.ToString()
 }
 
 if (Test-Path $centralVenv) {

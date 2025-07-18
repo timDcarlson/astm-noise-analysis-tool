@@ -30,6 +30,9 @@ Shows this help information.
 | Option | Short | Description |
 |--------|-------|-------------|
 | `-ShowCompleteDataset` | `-Show` | Display both ASTM interval and complete dataset plots |
+| `-ShowHighNoiseIntervals` | `-Intervals` | Identify and highlight highest noise intervals |
+| `-MaxIntervalsToPlot <number>` | N/A | Maximum intervals to plot when using `-Intervals` (default: 8) |
+| `-NoiseThreshold <value>` | N/A | Show all intervals above this threshold (alternative to top-N) |
 | `-Help` | `-h` | Show this help information |
 
 ### Threshold-Based Analysis
@@ -37,6 +40,12 @@ Shows this help information.
 .\run_astm_noise.ps1 -Intervals -NoiseThreshold 1200
 ```
 Shows ALL intervals where noise exceeds 1200 (or any specified threshold).
+
+### Plot Limit Control
+```powershell
+.\run_astm_noise.ps1 -Intervals -MaxIntervalsToPlot 5
+```
+Limits detailed plotting to only the 5 highest noise intervals (prevents excessive windows).
 
 **Features for both modes:**
 - **Interval Tracking**: Records time periods with highest noise values
@@ -47,6 +56,8 @@ Shows ALL intervals where noise exceeds 1200 (or any specified threshold).
   - Channel information (Main or Reference)
   - File index for traceability
 - **30-Second Detail Plotting**: Button to view zoomed plots of each high-noise interval
+  - **Configurable Plot Limit**: Set maximum number of intervals to plot (default: 8) to prevent excessive windows
+  - **Plot Configuration**: Adjustable directly in the high noise intervals window
 - **Export Capabilities**: Save interval lists and detailed plots with descriptive filenames
 
 This feature is particularly useful for:

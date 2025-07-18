@@ -1,6 +1,6 @@
 # ASTM Noise Analysis Tool
 
-A Python-based tool for analyzing noise in lamp data according to ASTM standards. This application provides a modern GUI interface with separate plot windows for analyzing noise statistics and visualizing complete datasets.
+**Version 3.1.1** - A Python-based tool for analyzing noise in lamp data according to ASTM standards. This application provides a modern GUI interface with separate plot windows for analyzing noise statistics and visualizing complete datasets.
 
 ## Features
 
@@ -10,9 +10,12 @@ A Python-based tool for analyzing noise in lamp data according to ASTM standards
 - **Dual Plot Visualization**: 
   - ASTM Noise Interval plot (minutes) with 60-minute compliance line
   - Optional Complete Dataset plot (hours) with total time display
+- **High Noise Interval Analysis**: Identify and analyze problematic time periods
+  - **Configurable Plot Limits**: Control number of detailed interval plots (default: 8)
+  - **Interactive Configuration**: Adjust plot limits directly in analysis window
 - **Separate Windows**: Each plot opens in its own dedicated window for better workflow
 - **Smart Export**: Automatic filename generation with green success confirmation
-- **Command Line Options**: Optional complete dataset plotting via `--show-complete-dataset`
+- **Command Line Options**: PowerShell integration with advanced parameter support
 - **Professional Output**: CSV results and high-quality PNG exports
 
 ## Setup on a New Computer
