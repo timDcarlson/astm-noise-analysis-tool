@@ -89,6 +89,13 @@ test_data/
 old_versions/
 backup/
 
+# D2 Fixture specific folders (exclude from repository)
+D2 fixture docs/
+LaTeX/
+documentation_pics/
+screenshots/
+servicing_pics/
+
 # Distribution files (keep the main ones but ignore old versions)
 ASTM-Noise-Analysis-Tool-v*.zip
 ASTM-Noise-Analysis-Tool-v*/
