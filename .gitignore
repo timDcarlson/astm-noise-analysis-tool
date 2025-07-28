@@ -88,6 +88,7 @@ tmp/
 test_data/
 old_versions/
 backup/
+*.7z
 
 # D2 Fixture specific folders (exclude from repository)
 D2 fixture docs/
