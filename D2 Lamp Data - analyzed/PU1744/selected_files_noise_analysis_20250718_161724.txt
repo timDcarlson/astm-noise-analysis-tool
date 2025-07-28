@@ -1,0 +1,157 @@
+Noise Analysis Results for Selected Files:
+============================================================
+
+File: 2025-07-10_17-23-21_DataCollection.txt
+--------------------------------------------------
+Main Channel (109 intervals):
+  Mean:   5046.337
+  Max:    62467.000
+
+Reference Channel (109 intervals):
+  Mean:   3135.908
+  Max:    41663.000
+
+
+File: 2025-07-10_18-18-24_DataCollection.txt
+--------------------------------------------------
+Main Channel (109 intervals):
+  Mean:   604.816
+  Max:    1230.220
+
+Reference Channel (109 intervals):
+  Mean:   856.225
+  Max:    1275.700
+
+
+File: 2025-07-10_19-13-27_DataCollection.txt
+--------------------------------------------------
+Main Channel (109 intervals):
+  Mean:   603.491
+  Max:    848.500
+
+Reference Channel (109 intervals):
+  Mean:   845.299
+  Max:    1165.500
+
+
+File: 2025-07-10_20-08-30_DataCollection.txt
+--------------------------------------------------
+Main Channel (109 intervals):
+  Mean:   618.831
+  Max:    864.000
+
+Reference Channel (109 intervals):
+  Mean:   858.082
+  Max:    1290.802
+
+
+File: 2025-07-10_21-03-33_DataCollection.txt
+--------------------------------------------------
+Main Channel (109 intervals):
+  Mean:   662.998
+  Max:    1321.536
+
+Reference Channel (109 intervals):
+  Mean:   864.086
+  Max:    1367.667
+
+
+File: 2025-07-10_21-58-36_DataCollection.txt
+--------------------------------------------------
+Main Channel (109 intervals):
+  Mean:   649.961
+  Max:    1124.857
+
+Reference Channel (109 intervals):
+  Mean:   870.006
+  Max:    1363.413
+
+
+File: 2025-07-10_22-53-39_DataCollection.txt
+--------------------------------------------------
+Main Channel (109 intervals):
+  Mean:   593.734
+  Max:    1110.400
+
+Reference Channel (109 intervals):
+  Mean:   832.689
+  Max:    1163.771
+
+
+File: 2025-07-10_23-48-42_DataCollection.txt
+--------------------------------------------------
+Main Channel (109 intervals):
+  Mean:   598.922
+  Max:    937.504
+
+Reference Channel (109 intervals):
+  Mean:   846.254
+  Max:    1208.826
+
+
+File: 2025-07-11_00-43-45_DataCollection.txt
+--------------------------------------------------
+Main Channel (109 intervals):
+  Mean:   574.357
+  Max:    960.232
+
+Reference Channel (109 intervals):
+  Mean:   838.096
+  Max:    1147.077
+
+
+File: 2025-07-11_01-38-48_DataCollection.txt
+--------------------------------------------------
+Main Channel (109 intervals):
+  Mean:   567.746
+  Max:    788.059
+
+Reference Channel (109 intervals):
+  Mean:   826.749
+  Max:    1094.351
+
+
+File: 2025-07-11_02-33-51_DataCollection.txt
+--------------------------------------------------
+Main Channel (109 intervals):
+  Mean:   561.138
+  Max:    749.429
+
+Reference Channel (109 intervals):
+  Mean:   828.182
+  Max:    1169.652
+
+
+File: 2025-07-11_03-28-54_DataCollection.txt
+--------------------------------------------------
+Main Channel (109 intervals):
+  Mean:   580.434
+  Max:    827.168
+
+Reference Channel (109 intervals):
+  Mean:   834.166
+  Max:    1055.600
+
+
+File: 2025-07-11_04-23-57_DataCollection.txt
+--------------------------------------------------
+Main Channel (109 intervals):
+  Mean:   610.075
+  Max:    1203.554
+
+Reference Channel (109 intervals):
+  Mean:   833.543
+  Max:    1136.733
+
+
+File: 2025-07-11_05-19-00_DataCollection.txt
+--------------------------------------------------
+Main Channel (9 intervals):
+  Mean:   545.677
+  Max:    720.200
+
+Reference Channel (9 intervals):
+  Mean:   869.227
+  Max:    1246.249
+
+

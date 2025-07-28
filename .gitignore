@@ -1,3 +1,75 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
 # LaTeX generated files
 *.aux
 *.bbl
@@ -9,10 +81,18 @@
 *.synctex.gz
 *.toc
 
-# Python cache
-__pycache__/
-*.pyc
+# Project specific
+*.tmp
+temp/
+tmp/
+test_data/
+old_versions/
+backup/
 
-# OS generated files
-.DS_Store
-Thumbs.db
+# Distribution files (keep the main ones but ignore old versions)
+ASTM-Noise-Analysis-Tool-v*.zip
+ASTM-Noise-Analysis-Tool-v*/
+
+# Keep the latest distribution
+!ASTM-Noise-Analysis-Tool-v3.1.1/
+!ASTM-Noise-Analysis-Tool-v3.1.1.zip
