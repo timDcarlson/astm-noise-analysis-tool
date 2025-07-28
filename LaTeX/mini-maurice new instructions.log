@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.10)  15 JUL 2025 09:33
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.10)  15 JUL 2025 21:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -584,51 +584,73 @@ File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
 File: listings.cfg 2024/09/23 1.10c listings configuration
 ))
 Package: listings 2024/09/23 1.10c (Carsten Heinz)
- (c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+ (c:/texlive/2025/texmf-dist/tex/latex/todonotes/todonotes.sty
+Package: todonotes 2024/01/05 v1.1.7 Todonotes source and documentation.
+Package: todonotes 2024/01/05
+ (c:/texlive/2025/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypositioning.code.tex
+File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2025/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2025/03/01 v4.3b Infix arithmetic (KKT,FJ)
+\calc@Acount=\count348
+\calc@Bcount=\count349
+\calc@Adimen=\dimen289
+\calc@Bdimen=\dimen290
+\calc@Askip=\skip66
+\calc@Bskip=\skip67
+LaTeX Info: Redefining \setlength on input line 86.
+LaTeX Info: Redefining \addtolength on input line 87.
+\calc@Ccount=\count350
+\calc@Cskip=\skip68
+)
+\c@@todonotes@numberoftodonotes=\count351
+) (c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 ) (c:/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryarrows.code.tex
 File: tikzlibraryarrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
  (c:/texlive/2025/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.tex
 File: pgflibraryarrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\arrowsize=\dimen289
+\arrowsize=\dimen291
 )) (c:/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydecorations.code.tex (c:/texlive/2025/texmf-dist/tex/generic/pgf/modules/pgfmoduledecorations.code.tex
-\pgfdecoratedcompleteddistance=\dimen290
-\pgfdecoratedremainingdistance=\dimen291
-\pgfdecoratedinputsegmentcompleteddistance=\dimen292
-\pgfdecoratedinputsegmentremainingdistance=\dimen293
-\pgf@decorate@distancetomove=\dimen294
-\pgf@decorate@repeatstate=\count348
-\pgfdecorationsegmentamplitude=\dimen295
-\pgfdecorationsegmentlength=\dimen296
+\pgfdecoratedcompleteddistance=\dimen292
+\pgfdecoratedremainingdistance=\dimen293
+\pgfdecoratedinputsegmentcompleteddistance=\dimen294
+\pgfdecoratedinputsegmentremainingdistance=\dimen295
+\pgf@decorate@distancetomove=\dimen296
+\pgf@decorate@repeatstate=\count352
+\pgfdecorationsegmentamplitude=\dimen297
+\pgfdecorationsegmentlength=\dimen298
 )
 \tikz@lib@dec@box=\box70
-) (c:/texlive/2025/texmf-dist/tex/latex/spath3/tikzlibrarycalligraphy.code.tex (c:/texlive/2025/texmf-dist/tex/latex/spath3/spath3.sty
+) (c:/texlive/2025/texmf-dist/tex/latex/spath3/tikzlibrarycalligraphy.code.tex
+(c:/texlive/2025/texmf-dist/tex/latex/spath3/spath3.sty
 Package: spath3 2024/05/31 v2.8 Functions for manipulating PGF soft paths
-\g__spath_output_int=\count349
-\l__spath_tmpa_dim=\dimen297
-\l__spath_tmpb_dim=\dimen298
-\l__spath_tmpa_int=\count350
-\l__spath_tmpb_int=\count351
-\l__spath_move_x_dim=\dimen299
-\l__spath_move_y_dim=\dimen300
-\l__spath_rectx_dim=\dimen301
-\l__spath_recty_dim=\dimen302
-\g__spath_anon_int=\count352
+\g__spath_output_int=\count353
+\l__spath_tmpa_dim=\dimen299
+\l__spath_tmpb_dim=\dimen300
+\l__spath_tmpa_int=\count354
+\l__spath_tmpb_int=\count355
+\l__spath_move_x_dim=\dimen301
+\l__spath_move_y_dim=\dimen302
+\l__spath_rectx_dim=\dimen303
+\l__spath_recty_dim=\dimen304
+\g__spath_anon_int=\count356
 )
-\l__cal_tmpa_int=\count353
-\l__cal_tmpb_int=\count354
-\g__cal_path_component_int=\count355
-\g__cal_label_int=\count356
-\l__cal_tmpa_dim=\dimen303
-\l__cal_tmpb_dim=\dimen304
-\l__cal_tmpc_dim=\dimen305
-\l__cal_tmpd_dim=\dimen306
-\l__cal_tmpe_dim=\dimen307
-\l__cal_tmpf_dim=\dimen308
-\l__cal_tmpg_dim=\dimen309
-\l__cal_tmph_dim=\dimen310
-\l__cal_taper_width_dim=\dimen311
-\l__cal_line_width_dim=\dimen312
+\l__cal_tmpa_int=\count357
+\l__cal_tmpb_int=\count358
+\g__cal_path_component_int=\count359
+\g__cal_label_int=\count360
+\l__cal_tmpa_dim=\dimen305
+\l__cal_tmpb_dim=\dimen306
+\l__cal_tmpc_dim=\dimen307
+\l__cal_tmpd_dim=\dimen308
+\l__cal_tmpe_dim=\dimen309
+\l__cal_tmpf_dim=\dimen310
+\l__cal_tmpg_dim=\dimen311
+\l__cal_tmph_dim=\dimen312
+\l__cal_taper_width_dim=\dimen313
+\l__cal_line_width_dim=\dimen314
 )
 
 Package fontspec Info: 
@@ -658,21 +680,21 @@ Package fontspec Info:
 \symDigits:m:n=\mathgroup4
 \symLatin:m:n=\mathgroup5
 \symLatin:m:it=\mathgroup6
-LaTeX Font Info:    Redeclaring math alphabet \mathrm on input line 32.
+LaTeX Font Info:    Redeclaring math alphabet \mathrm on input line 33.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  TU/Arial(0)/m/n --> TU/Arial(0)/bx/n on input line 32.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 32.
+(Font)                  TU/Arial(0)/m/n --> TU/Arial(0)/bx/n on input line 33.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 33.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/lmr/m/it --> TU/Arial(0)/m/it on input line 32.
+(Font)                  OT1/lmr/m/it --> TU/Arial(0)/m/it on input line 33.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/lmr/bx/it --> TU/Arial(0)/m/it on input line 32.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 32.
+(Font)                  OT1/lmr/bx/it --> TU/Arial(0)/m/it on input line 33.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 33.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/lmr/bx/n --> TU/Arial(0)/bx/n on input line 32.
+(Font)                  OT1/lmr/bx/n --> TU/Arial(0)/bx/n on input line 33.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/lmr/bx/n --> TU/Arial(0)/bx/n on input line 32.
+(Font)                  OT1/lmr/bx/n --> TU/Arial(0)/bx/n on input line 33.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  TU/Arial(0)/m/it --> TU/Arial(0)/bx/it on input line 32.
+(Font)                  TU/Arial(0)/m/it --> TU/Arial(0)/bx/it on input line 33.
 \symOperators:m:n=\mathgroup7
 \imagebox=\box71
 Class scrartcl Info: loading recommended package `bookmark'.
@@ -682,39 +704,647 @@ Class scrartcl Info: loading recommended package `bookmark'.
 (scrartcl)           `bookmarkpackage=false' before \begin{document} and
 (scrartcl)           you can avoid this message adding:
 (scrartcl)             \usepackage{bookmark}
-(scrartcl)           before \begin{document} on input line 53.
+(scrartcl)           before \begin{document} on input line 54.
  (c:/texlive/2025/texmf-dist/tex/latex/bookmark/bookmark.sty
 Package: bookmark 2023-12-10 v1.31 PDF bookmarks (HO)
  (c:/texlive/2025/texmf-dist/tex/latex/bookmark/bkm-dvipdfm.def
 File: bkm-dvipdfm.def 2023-12-10 v1.31 bookmark driver for dvipdfm (HO)
-\BKM@id=\count357
-)) (./mini-maurice new instructions.aux)
+\BKM@id=\count361
+))
+No file "mini-maurice new instructions".aux.
 \openout1 = `"mini-maurice new instructions.aux"'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-Package scrbase Info: activating english \abstractname on input line 53.
-Package scrbase Info: activating english \partname on input line 53.
-Package scrbase Info: activating english \figurename on input line 53.
-Package scrbase Info: activating english \tablename on input line 53.
-Package scrbase Info: activating english \contentsname on input line 53.
-Package scrbase Info: activating english \listfigurename on input line 53.
-Package scrbase Info: activating english \listtablename on input lin
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+Package scrbase Info: activating english \abstractname on input line 54.
+Package scrbase Info: activating english \partname on input line 54.
+Package scrbase Info: activating english \figurename on input line 54.
+Package scrbase Info: activating english \tablename on input line 54.
+Package scrbase Info: activating english \contentsname on input line 54.
+Package scrbase Info: activating english \listfigurename on input line 54.
+Package scrbase Info: activating english \listtablename on input line 54.
+Package scrbase Info: activating english \refname on input line 54.
+Package scrbase Info: activating english \indexname on input line 54.
+*geometry* driver: auto-detecting
+*geometry* detected driver: xetex
+*geometry* verbose mode - [ preamble ] result:
+* driver: xetex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(85.35826pt, 426.79141pt, 85.35826pt)
+* v-part:(T,H,B)=(85.35826pt, 674.33041pt, 85.35826pt)
+* \paperwidth=597.50793pt
+* \paperheight=845.04694pt
+* \textwidth=426.79141pt
+* \textheight=674.33041pt
+* \oddsidemargin=13.08827pt
+* \evensidemargin=13.08827pt
+* \topmargin=-26.78673pt
+* \headheight=18.125pt
+* \headsep=21.75pt
+* \topskip=12.0pt
+* \footskip=50.75pt
+* \marginparwidth=49.79233pt
+* \marginparsep=12.8401pt
+* \columnsep=10.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+Package hyperref Info: Link coloring OFF on input line 54.
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
+
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: listings package is loaded.
+Package caption Info: End \AtBeginDocument code.
+\c@lstlisting=\count362
+Package tocbasic Info: omitting babel extension for `lol'
+(tocbasic)             because of missing \bbl@set@language on input line 54.
+\scr@dte@lstlisting@maxnumwidth=\skip69
+
+Package todonotes Warning: The length marginparwidth is less than 2cm and will most likely cause issues with the appearance of inserted todonotes. The issue can be solved by adding a line like \setlength {\marginparwidth }{2cm} prior to loading the todonotes package. on input line 54.
+
+No file "mini-maurice new instructions".toc.
+\tf@toc=\write4
+\openout4 = `"mini-maurice new instructions.toc"'.
+
+
+
+File: Bio-Techne Emblem_Gradient bkgd_White emblem.png Graphic file (type bmp)
+<Bio-Techne Emblem_Gradient bkgd_White emblem.png>
+[1
+
+]
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 81.
+ (c:/texlive/2025/texmf-dist/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 81.
+ (c:/texlive/2025/texmf-dist/tex/latex/lm/omllmm.fd
+File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 81.
+ (c:/texlive/2025/texmf-dist/tex/latex/lm/omslmsy.fd
+File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 81.
+ (c:/texlive/2025/texmf-dist/tex/latex/lm/omxlmex.fd
+File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <12> on input line 81.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 81.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 81.
+
+Underfull \hbox (badness 5696) in paragraph at lines 81--82
+\TU/Arial(0)/m/n/12 monitor should take up less than
+ []
+
+File: ../documentation_pics/fixture.jpeg Graphic file (type bmp)
+<../documentation_pics/fixture.jpeg>
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 87.
+See the caption package documentation for explanation.
+
+File: ../screenshots/padding.jpeg Graphic file (type bmp)
+<../screenshots/padding.jpeg>
+
+Package caption Warning: The option `hypcap=true' will be ignored for this
+(caption)                particular \caption on input line 96.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `lampReassembly' on page 2 undefined on input line 101.
+
+
+
+File: Bio-Techne Emblem_Gradient bkgd_White emblem.png Graphic file (type bmp)
+<Bio-Techne Emblem_Gradient bkgd_White emblem.png>
+[2]
+File: ../screenshots/desktop.png Graphic file (type bmp)
+<../screenshots/desktop.png>
+File: ../screenshots/firefox.jpg Graphic file (type bmp)
+<../screenshots/firefox.jpg>
+File: ../screenshots/devices.jpg Graphic file (type bmp)
+<../screenshots/devices.jpg>
+
+
+File: Bio-Techne Emblem_Gradient bkgd_White emblem.png Graphic file (type bmp)
+<Bio-Techne Emblem_Gradient bkgd_White emblem.png>
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 151--152
+
+ []
+
+File: ../screenshots/kiferIOlampOff.jpg Graphic file (type bmp)
+<../screenshots/kiferIOlampOff.jpg>
+File: ../screenshots/pointdetectordefault.jpg Graphic file (type bmp)
+<../screenshots/pointdetectordefault.jpg>
+
+
+File: Bio-Techne Emblem_Gradient bkgd_White emblem.png Graphic file (type bmp)
+<Bio-Techne Emblem_Gradient bkgd_White emblem.png>
+[4]
+File: ../screenshots/kiferIOlampOff.jpg Graphic file (type bmp)
+<../screenshots/kiferIOlampOff.jpg>
+
+
+File: Bio-Techne Emblem_Gradient bkgd_White emblem.png Graphic file (type bmp)
+<Bio-Techne Emblem_Gradient bkgd_White emblem.png>
+[5]
+File: ../screenshots/kiferIOlampOn.jpg Graphic file (type bmp)
+<../screenshots/kiferIOlampOn.jpg>
+File: ../screenshots/pointdetectordefault.jpg Graphic file (type bmp)
+<../screenshots/pointdetectordefault.jpg>
+
+
+File: Bio-Techne Emblem_Gradient bkgd_White emblem.png Graphic file (type bmp)
+<Bio-Techne Emblem_Gradient bkgd_White emblem.png>
+[6]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 201.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 201.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 201.
+LaTeX Font Info:    Font shape `TU/Arial(0)/bx/n' in size <12> not available
+(Font)              Font shape `TU/Arial(0)/b/n' tried instead on input line 201.
+LaTeX Font Info:    Font shape `TU/Arial(0)/bx/n' in size <8> not available
+(Font)              Font shape `TU/Arial(0)/b/n' tried instead on input line 201.
+LaTeX Font Info:    Font shape `TU/Arial(0)/bx/n' in size <6> not available
+(Font)              Font shape `TU/Arial(0)/b/n' tried instead on input line 201.
+File: ../screenshots/pointdetector100msRunning.jpg Graphic file (type bmp)
+<../screenshots/pointdetector100msRunning.jpg>
+
+Underfull \hbox (badness 10000) in paragraph at lines 210--211
+
+ []
+
+
+
+File: Bio-Techne Emblem_Gradient bkgd_White emblem.png Graphic file (type bmp)
+<Bio-Techne Emblem_Gradient bkgd_White emblem.png>
+[7]
+File: ../screenshots/pointdetectorchart.jpg Graphic file (type bmp)
+<../screenshots/pointdetectorchart.jpg>
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 214.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Undefined control sequence.
+\tikz@deactivatthings ->\def ;
+                              {\tikz@nonactivesemicolon }\def :{\tikz@nonact...
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Undefined control sequence.
+\tikz@deactivatthings ...onactivesemicolon }\def :
+                                                  {\tikz@nonactivecolon }\de...
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Undefined control sequence.
+\tikz@deactivatthings ...kz@nonactivecolon }\def |
+                                                  {\tikz@nonactivebar }\def ...
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Undefined control sequence.
+\tikz@deactivatthings ...tikz@nonactivebar }\def !
+                                                  {\tikz@nonactiveexlmark }
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Argument of \tikz@style@parseA has an extra }.
+<inserted text> 
+                \par 
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+btblue!90,rounded corners=3pt,rectangle,draw,font=\footnotesize ]{\textcolor \ETC.
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Paragraph ended before \tikz@style@parseA was complete.
+<to be read again> 
+                   \par 
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Missing $ inserted.
+<inserted text> 
+                $
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Extra }, or forgotten $.
+\@todonotes@drawInlineNote ...{\@todonotes@text }}
+                                                  \fi };\end {tikzpicture}\i...
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Extra }, or forgotten $.
+\@todonotes@drawInlineNote ...donotes@text }}\fi }
+                                                  ;\end {tikzpicture}\if@tod...
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Undefined control sequence.
+\endtikzpicture ...r@layerlist@globally \endscope 
+                                                  \let \pgf@baseline =\pgf@s...
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Missing $ inserted.
+<inserted text> 
+                $
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Missing } inserted.
+<inserted text> 
+                }
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Missing } inserted.
+<inserted text> 
+                }
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+Overfull \hbox (145.82077pt too wide) in paragraph at lines 214--214
+\TU/Arial(0)/m/n/12 CHNL1$[][][][][][][][][]\OML/lmm/m/it/12 :[][][]; [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]:\OT1/lmr/m/n/12 ; [][][][]$[]  
+ []
+
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Package tikz Error: Giving up on this path. Did you forget a semicolon?.
+
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+This error message was generated by an \errmessage
+command, so I can't give any explicit help.
+Pretend that you're Hercule Poirot: Examine all clues,
+and deduce the truth by order and method.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Extra }, or forgotten \endgroup.
+\endpgfpicture ...globally \endgroup \hss \egroup 
+                                                  \pgf@restore@layerlist@fro...
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Extra }, or forgotten \endgroup.
+\endpgfpicture ...dpicture \endgroup \hss \egroup 
+                                                  \pgfsys@typesetpicturebox ...
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Missing } inserted.
+<inserted text> 
+                }
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Extra }, or forgotten \endgroup.
+\@todonotes@drawInlineNote ...inlinepar \par \fi }
+                                                  \fi 
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:214: Extra }, or forgotten \endgroup.
+\\todo ...odonotes@vmodetrue \fi {\@todo [#1]{#2}}
+                                                  \@esphack \if@todonotes@vm...
+l.214 ... on the order of millions of ADC counts.}
+                                                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+File: ../screenshots/firefox.jpg Graphic file (type bmp)
+<../screenshots/firefox.jpg>
+File: ../screenshots/resultsDir.png Graphic file (type bmp)
+<../screenshots/resultsDir.png>
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:241: LaTeX Error: Bad math environment delimiter.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.241 \end{tikzpicture}\]
+                         
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:245: LaTeX Error: Not allowed in LR mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.245 \paragraph
+                {Limitations of collecting S2D2 lamp data from the \textcolo...
+You've lost some text.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:245: Improper \prevdepth.
+\addpenalty ...ance \@tempskipb \ifdim \prevdepth 
+                                                  >\maxdepth \maxdepth \else...
+l.245 \paragraph
+                {Limitations of collecting S2D2 lamp data from the \textcolo...
+You can refer to \spacefactor only in horizontal mode;
+you can refer to \prevdepth only in vertical mode; and
+neither of these is meaningful inside \write. So
+I'm forgetting what you said and using zero instead.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:245: Improper \prevdepth.
+\addpenalty ... \maxdepth \else \ifdim \prevdepth 
+                                                  = -\@m \p@ \z@ \else \prev...
+l.245 \paragraph
+                {Limitations of collecting S2D2 lamp data from the \textcolo...
+You can refer to \spacefactor only in horizontal mode;
+you can refer to \prevdepth only in vertical mode; and
+neither of these is meaningful inside \write. So
+I'm forgetting what you said and using zero instead.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:245: Improper \prevdepth.
+<recently read> \prevdepth 
+                           
+l.245 \paragraph
+                {Limitations of collecting S2D2 lamp data from the \textcolo...
+You can refer to \spacefactor only in horizontal mode;
+you can refer to \prevdepth only in vertical mode; and
+neither of these is meaningful inside \write. So
+I'm forgetting what you said and using zero instead.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:245: Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.245 \paragraph
+                {Limitations of collecting S2D2 lamp data from the \textcolo...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:245: Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.245 \paragraph
+                {Limitations of collecting S2D2 lamp data from the \textcolo...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:245: Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.245 \paragraph
+                {Limitations of collecting S2D2 lamp data from the \textcolo...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:245: Missing } inserted.
+<inserted text> 
+                }
+l.245 \paragraph
+                {Limitations of collecting S2D2 lamp data from the \textcolo...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+Overfull \hbox (4592.65346pt too wide) detected at line 245
+[][][][][] \TU/Arial(0)/m/n/12 For this fixture, we want to ensure that [] is selected. When the lamp is on, the signal for [] should read above $[] \OMS/lmsy/m/n/12 ^^B [][][]$ \TU/Arial(0)/m/n/12 integration (ADC) counts as shown above. If the lamp is \TU/Arial(0)/m/it/12 not \TU/Arial(0)/m/n/12 on, the signal for [] should read around $[]\OML/lmm/m/it/12 :[] \OMS/lmsy/m/n/12 ^^B [][][]$ \TU/Arial(0)/m/n/12 integration (ADC) counts.[]  [] The []Results Directory[] will contain a list of data files generated from the S2D2 lamp, but only the latest data file generated using the []PointDetectorIO[] will be retained since each time the [] button on the []PointDetectorIO[] is pressed, the file []DataCollection.txt[] shown below is overwritten. $$[]The other files listed in the []Results Directory[] are power data (ADC counts) for the S2D2 lamp generated in a different way which will be covered in the next section. 
+ []
+
+File: ../screenshots/puttyConfig.jpg Graphic file (type bmp)
+<../screenshots/puttyConfig.jpg>
+
+
+File: Bio-Techne Emblem_Gradient bkgd_White emblem.png Graphic file (type bmp)
+<Bio-Techne Emblem_Gradient bkgd_White emblem.png>
+[8]
+File: ../screenshots/puttyWelcome.jpg Graphic file (type bmp)
+<../screenshots/puttyWelcome.jpg>
+
+
+File: Bio-Techne Emblem_Gradient bkgd_White emblem.png Graphic file (type bmp)
+<Bio-Techne Emblem_Gradient bkgd_White emblem.png>
+[9]
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <12> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 279.
+File: ../screenshots/puttyStart.png Graphic file (type bmp)
+<../screenshots/puttyStart.png>
+
+
+File: Bio-Techne Emblem_Gradient bkgd_White emblem.png Graphic file (type bmp)
+<Bio-Techne Emblem_Gradient bkgd_White emblem.png>
+[10]
+LaTeX Font Info:    Font shape `TU/Arial(0)/bx/n' in size <10> not available
+(Font)              Font shape `TU/Arial(0)/b/n' tried instead on input line 311.
+LaTeX Font Info:    Font shape `TU/Arial(0)/bx/n' in size <7> not available
+(Font)              Font shape `TU/Arial(0)/b/n' tried instead on input line 311.
+LaTeX Font Info:    Font shape `TU/Arial(0)/bx/n' in size <5> not available
+(Font)              Font shape `TU/Arial(0)/b/n' tried instead on input line 311.
+
+
+File: Bio-Techne Emblem_Gradient bkgd_White emblem.png Graphic file (type bmp)
+<Bio-Techne Emblem_Gradient bkgd_White emblem.png>
+[11]
+File: ../screenshots/resultsDir.png Graphic file (type bmp)
+<../screenshots/resultsDir.png>
+
+
+File: Bio-Techne Emblem_Gradient bkgd_White emblem.png Graphic file (type bmp)
+<Bio-Techne Emblem_Gradient bkgd_White emblem.png>
+[12]
+File: ../servicing_pics/first_screw.jpeg Graphic file (type bmp)
+<../servicing_pics/first_screw.jpeg>
+File: ../servicing_pics/second_screw.jpeg Graphic file (type bmp)
+<../servicing_pics/second_screw.jpeg>
+File: ../servicing_pics/housing.jpeg Graphic file (type bmp)
+<../servicing_pics/housing.jpeg>
+File: ../servicing_pics/cover_replacement.jpeg Graphic file (type bmp)
+<../servicing_pics/cover_replacement.jpeg>
+
+
+File: Bio-Techne Emblem_Gradient bkgd_White emblem.png Graphic file (type bmp)
+<Bio-Techne Emblem_Gradient bkgd_White emblem.png>
+[13]
+File: ../servicing_pics/top_board.jpeg Graphic file (type bmp)
+<../servicing_pics/top_board.jpeg>
+File: ../servicing_pics/screw_one.jpeg Graphic file (type bmp)
+<../servicing_pics/screw_one.jpeg>
+
+
+c:/Users/tdcar/OneDrive/Desktop/Work/D2/new d2 fixtures/LaTeX/mini-maurice new instructions.tex:370: LaTeX Error: \begin{tikzpicture} on input line 214 ended by \end{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.370 \end{document}
+                    
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+
+File: Bio-Techne Emblem_Gradient bkgd_White emblem.png Graphic file (type bmp)
+<Bio-Techne Emblem_Gradient bkgd_White emblem.png>
+[14] (./mini-maurice new instructions.aux)
+ ***********
+LaTeX2e <2025-06-01> patch level 1
+L3 programming layer <2025-05-26>
+ ***********
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ )
+(\end occurred inside a group at level 4)
+
+### semi simple group (level 4) entered at line 214 (\begingroup)
+### semi simple group (level 3) entered at line 214 (\begingroup)
+### simple group (level 2) entered at line 214 ({)
+### simple group (level 1) entered at line 214 ({)
+### bottom level 
+Here is how much of TeX's memory you used:
+ 31040 strings out of 468527
+ 660283 string characters out of 5451377
+ 1306938 words of memory out of 5000000
+ 58908 multiletter control sequences out of 15000+600000
+ 649292 words of font info for 97 fonts, out of 8000000 for 9000
+ 1348 hyphenation exceptions out of 8191
+ 108i,11n,117p,11017b,1463s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on mini-maurice new instructions.pdf (14 pages).
