@@ -49,14 +49,14 @@ Write-Host "Installing required packages..." -ForegroundColor Green
 $pythonExe = Join-Path $venvPath "Scripts\python.exe"
 if (Test-Path "requirements.txt") {
     & $pythonExe -m pip install --upgrade pip
-    & $pythonExe -m pip install -r requirements.txt
+    & $pythonExe -m pip install --only-binary :all: -r requirements.txt
     Write-Host "Environment setup complete!" -ForegroundColor Green
     Write-Host "Virtual environment created at: $venvPath" -ForegroundColor Cyan
     Write-Host "You can now run 'run_astm_noise.ps1' to start the application." -ForegroundColor Cyan
 } else {
     Write-Host "Warning: requirements.txt not found. Installing basic packages..." -ForegroundColor Yellow
     & $pythonExe -m pip install --upgrade pip
-    & $pythonExe -m pip install numpy matplotlib scipy
+    & $pythonExe -m pip install --only-binary :all: numpy matplotlib scipy
     Write-Host "Basic setup complete. You may need to install additional packages as needed." -ForegroundColor Yellow
     Write-Host "Virtual environment created at: $venvPath" -ForegroundColor Cyan
 }
