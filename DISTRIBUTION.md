@@ -32,7 +32,7 @@ This package contains everything you need to run the ASTM Noise Analysis Tool on
 ## System Requirements
 
 - **Operating System**: Windows 7 or later
-- **Python**: 3.8 or later (will be installed automatically if needed)
+- **Python**: 3.8 or later (from python.org or Microsoft Store)
 - **Memory**: 4GB RAM minimum (8GB recommended for large datasets)
 - **Storage**: 100MB free space (plus space for your data files)
 
@@ -42,6 +42,10 @@ This package contains everything you need to run the ASTM Noise Analysis Tool on
 - This keeps the tool's dependencies separate from any existing Python installations
 - No administrator privileges required
 - The tool can be run from any location after setup
+- **Compatible with both**:
+  - Standard Python installations from python.org
+  - Microsoft Store Python installations
+- The setup script automatically detects your Python installation type and uses the appropriate installation method
 
 ## Sharing This Package
 

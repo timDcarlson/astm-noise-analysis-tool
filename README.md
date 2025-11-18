@@ -36,9 +36,17 @@
 ### Environment Setup
 
 3. **Install Python** (if not already installed):
+   
+   **Option A - Python.org (Recommended):**
    - Download from https://www.python.org/downloads/
    - Make sure to check "Add Python to PATH" during installation
    - Verify installation: `py --version`
+   
+   **Option B - Microsoft Store:**
+   - Open Microsoft Store and search for "Python 3.12" or "Python 3.11"
+   - Install and the setup script will automatically detect it
+   
+   **Note**: The setup script automatically detects and works with both Python.org and Microsoft Store installations.
 
 4. **Set up the environment**:
    
@@ -176,6 +184,9 @@ The application expects tab-delimited text files with:
 - **PowerShell execution policy errors**: Run `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
 - **Batch file issues**: Try running the .bat files from Command Prompt instead of PowerShell
 - **Python not found**: Make sure Python is installed and added to PATH
+  - The setup script will automatically try `py`, `python3`, and `python` commands
+  - Works with both python.org and Microsoft Store installations
+- **Windows Store Python issues**: If you encounter problems, consider installing Python from python.org instead
 - **Virtual environments**: Stored in `%USERPROFILE%\Documents\Python Environments\`
 - **GUI doesn't appear**: Check that tkinter is properly installed with your Python distribution
 - **Import errors**: Run `setup_env.ps1` to ensure all dependencies are installed
