@@ -109,6 +109,7 @@ if (-not (Test-Path $pythonExe)) {
 
 # Install packages
 Write-Host "Installing required packages..." -ForegroundColor Green
+<<<<<<< HEAD
 
 # Function to install packages with fallback methods
 function Install-Packages {
@@ -203,6 +204,20 @@ if ($success) {
     Write-Host "You can now run 'run_astm_noise.ps1' to start the application." -ForegroundColor Cyan
 } else {
     Write-Host "`nSetup completed with errors!" -ForegroundColor Yellow
+=======
+$pythonExe = Join-Path $venvPath "Scripts\python.exe"
+if (Test-Path "requirements.txt") {
+    & $pythonExe -m pip install --upgrade pip
+    & $pythonExe -m pip install --only-binary :all: -r requirements.txt
+    Write-Host "Environment setup complete!" -ForegroundColor Green
+    Write-Host "Virtual environment created at: $venvPath" -ForegroundColor Cyan
+    Write-Host "You can now run 'run_astm_noise.ps1' to start the application." -ForegroundColor Cyan
+} else {
+    Write-Host "Warning: requirements.txt not found. Installing basic packages..." -ForegroundColor Yellow
+    & $pythonExe -m pip install --upgrade pip
+    & $pythonExe -m pip install --only-binary :all: numpy matplotlib scipy
+    Write-Host "Basic setup complete. You may need to install additional packages as needed." -ForegroundColor Yellow
+>>>>>>> 68e894c7f1ad82673a4945626a0c35375333bc91
     Write-Host "Virtual environment created at: $venvPath" -ForegroundColor Cyan
     Write-Host "You may need to manually install missing packages." -ForegroundColor Yellow
     if ($python.IsWindowsStore) {

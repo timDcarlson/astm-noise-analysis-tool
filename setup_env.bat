@@ -114,6 +114,7 @@ echo   Upgrading pip...
 "%VENV_PYTHON%" -m pip install --upgrade pip >nul 2>&1
 
 if exist "requirements.txt" (
+<<<<<<< HEAD
     echo   Installing packages from requirements.txt...
     
     REM Try with wheels first
@@ -157,6 +158,19 @@ if exist "requirements.txt" (
     echo   Warning: requirements.txt not found. Installing basic packages...
     "%VENV_PYTHON%" -m pip install numpy matplotlib scipy
     goto :install_success
+=======
+    "%VENV_PATH%\Scripts\python.exe" -m pip install --upgrade pip
+    "%VENV_PATH%\Scripts\python.exe" -m pip install --only-binary :all: -r requirements.txt
+    echo Environment setup complete!
+    echo Virtual environment created at: %VENV_PATH%
+    echo You can now run 'run_astm_noise.bat' to start the application.
+) else (
+    echo Warning: requirements.txt not found. Installing basic packages...
+    "%VENV_PATH%\Scripts\python.exe" -m pip install --upgrade pip
+    "%VENV_PATH%\Scripts\python.exe" -m pip install --only-binary :all: numpy matplotlib scipy
+    echo Basic setup complete. You may need to install additional packages as needed.
+    echo Virtual environment created at: %VENV_PATH%
+>>>>>>> 68e894c7f1ad82673a4945626a0c35375333bc91
 )
 
 :install_success
