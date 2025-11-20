@@ -14,9 +14,12 @@
   - **Configurable Plot Limits**: Control number of detailed interval plots (default: 8)
   - **Interactive Configuration**: Adjust plot limits directly in analysis window
 - **Separate Windows**: Each plot opens in its own dedicated window for better workflow
-- **Smart Export**: Automatic filename generation with green success confirmation
+- **Smart Export**: Automatic filename generation
 - **Command Line Options**: PowerShell integration with advanced parameter support
-- **Professional Output**: CSV results and high-quality PNG exports
+
+## System Requirements
+
+**Python Version**: This package requires **Python 3.12 or Python 3.13**. Python 3.14 is not yet supported as pre-built wheels for core numerical libraries (NumPy, SciPy, matplotlib) are not yet available for this version.
 
 ## Setup on a New Computer
 
@@ -38,12 +41,12 @@
 3. **Install Python** (if not already installed):
    
    **Option A - Python.org (Recommended):**
-   - Download from https://www.python.org/downloads/
+   - Download Python 3.12 or 3.13 from https://www.python.org/downloads/
    - Make sure to check "Add Python to PATH" during installation
    - Verify installation: `py --version`
    
    **Option B - Microsoft Store:**
-   - Open Microsoft Store and search for "Python 3.12" or "Python 3.11"
+   - Open Microsoft Store and search for "Python 3.12" or "Python 3.13"
    - Install and the setup script will automatically detect it
    
    **Note**: The setup script automatically detects and works with both Python.org and Microsoft Store installations.
