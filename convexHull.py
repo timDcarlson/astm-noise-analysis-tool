@@ -12,9 +12,8 @@ def calculate_max_noise(points):
     Returns:
         float: The maximum noise value for the set of points.
     """
-    
     if len(points) < 3:
-        return 0.0, np.array([])  # when a convex hull cannot be formed.
+        return 0.0  # Not enough points to form a hull; return zero noise
 
     hull = ConvexHull(points)
     hull_indices_original = hull.vertices  

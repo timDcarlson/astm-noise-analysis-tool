@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASTM Noise NN Console</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="title">ASTM Noise NN Console</div>
+    <div class="subtitle">Control ASTMnoise_nn.py with NN and event options</div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="panel-header">Data</div>
+      <div class="row">
+        <label>Data file</label>
+        <button id="dataBtn" class="outline">Choose file</button>
+        <span id="dataPathText" class="path-text">Not selected</span>
+      </div>
+    </section>
+
+    <section class="panel grid">
+      <div class="panel-header">Modes</div>
+      <div class="row">
+        <label for="useNN">Use NN</label>
+        <input id="useNN" type="checkbox" />
+      </div>
+      <div class="row">
+        <label for="model">Model</label>
+        <select id="model">
+          <option value="fourier" selected>Fourier MLP</option>
+          <option value="conv">Conv1d</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="panel grid">
+      <div class="panel-header">Hyperparameters</div>
+      <div class="row"><label for="epochs">Epochs</label><input id="epochs" type="number" value="800" /></div>
+      <div class="row"><label for="lr">LR</label><input id="lr" type="number" step="0.0001" value="0.005" /></div>
+      <div class="row"><label for="nFreq">n_freq (Fourier)</label><input id="nFreq" type="number" value="16" /></div>
+      <div class="row"><label for="hidden">Hidden / Channels</label><input id="hidden" type="number" value="64" /></div>
+      <div class="row"><label for="patience">Patience</label><input id="patience" type="number" value="80" /></div>
+      <div class="row"><label for="minDelta">Min delta</label><input id="minDelta" type="number" step="0.0001" value="0.0001" /></div>
+      <div class="row"><label for="bellMinAmplitude">Min Spike amplitude</label><input id="bellMinAmplitude" type="number" step="0.01" value="0.5" /></div>
+      <div class="row"><label for="bellMinWidth">Min Spike width (s)</label><input id="bellMinWidth" type="number" step="0.1" value="1" /></div>
+      <div class="row"><label for="bellMinProbability">Min Spike probability (%)</label><input id="bellMinProbability" type="number" step="0.1" value="50" /></div>
+    </section>
+
+    <section class="panel grid">
+      <div class="panel-header">Model Files (optional)</div>
+      <div class="row">
+        <label>Load model path</label>
+        <button id="loadModelBtn" class="outline">Choose model</button>
+        <span id="loadModelText" class="path-text">Not selected</span>
+      </div>
+    </section>
+
+    <section class="panel grid">
+      <div class="panel-header">Model persistence</div>
+      <div class="row">
+        <label for="saveModels">Save trained NN weights</label>
+        <input id="saveModels" type="checkbox" />
+      </div>
+      <div class="row small">
+        <span>When enabled, `nn_model_main.pth`/`nn_model_ref.pth` are written beside ASTMnoise_nn.py.</span>
+      </div>
+    </section>
+
+    <section class="panel actions">
+      <button id="runBtn" class="primary">Run</button>
+      <div id="status"></div>
+    </section>
+
+    <section class="panel logs">
+      <div class="panel-header">Log</div>
+      <pre id="log"></pre>
+    </section>
+
+    <section class="panel summary">
+      <div class="panel-header">Spike summary stats</div>
+      <div class="summary-grid">
+        <div class="summary-row summary-header">
+          <span>Channel</span>
+          <span>Events</span>
+          <span>Events / hr</span>
+          <span>Mean probability</span>
+        </div>
+        <div class="summary-row" id="summary-main">
+          <span>Main</span>
+          <span>—</span>
+          <span>—</span>
+          <span>—</span>
+        </div>
+        <div class="summary-row" id="summary-ref">
+          <span>Reference</span>
+          <span>—</span>
+          <span>—</span>
+          <span>—</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel graphs">
+      <div class="panel-header">Denoised signal viewer</div>
+      <div class="graph-grid">
+        <div class="graph-card">
+          <div class="graph-title">Main channel</div>
+          <div id="graph-main" class="plot"></div>
+          <div id="graph-main-meta" class="graph-meta"></div>
+        </div>
+        <div class="graph-card">
+          <div class="graph-title">Reference channel</div>
+          <div id="graph-ref" class="plot"></div>
+          <div id="graph-ref-meta" class="graph-meta"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel histograms">
+      <div class="panel-header">Spike events</div>
+      <div id="bellProbabilities" class="graph-meta">Spike probabilities will appear here once a run completes.</div>
+      <div class="histogram-grid">
+        <div class="graph-card">
+          <div class="graph-title">Spike amplitudes</div>
+          <div id="hist-amplitude" class="plot"></div>
+        </div>
+        <div class="graph-card">
+          <div class="graph-title">Spike widths (s)</div>
+          <div id="hist-width" class="plot"></div>
+        </div>
+        <div class="graph-card">
+          <div class="graph-title">Spike probability (up/down)</div>
+          <div id="hist-probability" class="plot"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/eel.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.24.2.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

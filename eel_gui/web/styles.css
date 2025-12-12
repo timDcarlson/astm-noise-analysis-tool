@@ -1,0 +1,185 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #0f1115;
+  color: #e6e9ef;
+}
+header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #1f2430;
+  background: linear-gradient(135deg, #10131a 0%, #0d1318 100%);
+}
+.title { font-size: 22px; font-weight: 700; letter-spacing: 0.2px; }
+.subtitle { font-size: 13px; color: #93a4b3; margin-top: 4px; }
+main {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  grid-auto-rows: minmax(60px, auto);
+  padding: 14px;
+}
+.panel {
+  background: #141821;
+  border: 1px solid #1f2430;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  min-height: 70px;
+}
+.panel-header {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #53c1a9;
+  letter-spacing: 0.3px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.row.small {
+  font-size: 12px;
+  color: #8ea1b7;
+  align-items: flex-start;
+}
+.row label { min-width: 160px; font-size: 13px; color: #c8d4e0; }
+.row input, .row select {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #2a3140;
+  background: #0f131a;
+  color: #e6e9ef;
+}
+.path-text {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  color: #c5d4e0;
+  padding: 6px 10px;
+  background: #0a0e15;
+  border: 1px solid #1a212c;
+  border-radius: 6px;
+  min-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.row input:focus, .row select:focus { outline: 1px solid #53c1a9; }
+.file-row { display: flex; gap: 8px; width: 100%; }
+.file-row input[type=text] { flex: 1; }
+.file-row button {
+  min-width: 90px;
+  background: #253041;
+  border: 1px solid #2f3b4f;
+}
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-weight: 600;
+  color: #e6e9ef;
+  background: #222b38;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+button:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.35); }
+button.primary { background: #53c1a9; color: #0f1115; }
+button.ghost { background: #1f2430; }
+button.outline { background: transparent; border: 1px solid #2a3140; color: #c5d4e0; }
+.actions { display: flex; align-items: center; gap: 14px; }
+#status { color: #93a4b3; font-size: 13px; }
+.logs { grid-column: 1 / -1; }
+#log {
+  margin: 0;
+  background: #0b0d12;
+  border: 1px solid #1f2430;
+  border-radius: 6px;
+  padding: 12px;
+  min-height: 200px;
+  max-height: 420px;
+  overflow: auto;
+  font-family: "JetBrains Mono", "Consolas", monospace;
+  font-size: 12px;
+  white-space: pre-wrap;
+}
+.graphs {
+  grid-column: 1 / -1;
+}
+.graph-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin-top: 8px;
+}
+.graph-card {
+  background: #111522;
+  border: 1px solid #1f2430;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+}
+.graph-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #53c1a9;
+  margin-bottom: 8px;
+}
+.plot {
+  min-height: 260px;
+  border: 1px solid #1f2430;
+  border-radius: 8px;
+  background: #0b0d12;
+}
+.graph-meta {
+  font-size: 12px;
+  color: #c8d4e0;
+  margin-top: 8px;
+}
+.graph-placeholder {
+  padding: 20px;
+  color: #8290a5;
+  text-align: center;
+}
+.histograms {
+  grid-column: 1 / -1;
+}
+.histogram-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin-top: 8px;
+}
+.summary {
+  grid-column: 1 / -1;
+}
+.summary-grid {
+  border: 1px solid #1f2430;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #0b0d12;
+}
+.summary-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(80px, 1fr));
+  padding: 10px 12px;
+  gap: 12px;
+  font-size: 13px;
+  border-bottom: 1px solid #1f2430;
+  color: #c8d4e0;
+}
+.summary-row:last-child {
+  border-bottom: none;
+}
+.summary-header {
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.2px;
+  color: #7fb5cd;
+  background: #0e121b;
+  border-bottom: 1px solid #1a202d;
+}
