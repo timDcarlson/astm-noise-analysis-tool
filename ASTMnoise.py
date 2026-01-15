@@ -116,10 +116,6 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
     
     # Process files automatically until we have enough data
     for file_index, filepath in enumerate(files_to_process):
-        # Check if we have enough data from both channels
-        if len(all_main_noise_values) >= 120 and len(all_ref_noise_values) >= 120:
-            print(f"Target of 120 intervals reached for both channels, stopping at file {file_index + 1}")
-            break  # Exit if we have enough data from both channels
             
         # Track filename for this file index
         filename = os.path.basename(filepath)
@@ -131,9 +127,12 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         try:
             data = np.loadtxt(filepath, delimiter='\t', skiprows=2)
 
-            # 1) scatter‐plot data uses offset times - optimized for memory
+            # Capture where this file starts in the concatenated timeline so plotting and interval timestamps agree.
+            file_start_offset = time_offset
+
+            # 1) scatter-plot data uses offset times - optimized for memory
             times = data[:, 0]
-            offset_times = times + time_offset
+            offset_times = times + file_start_offset
             
             # Use extend with numpy arrays converted to lists only when necessary
             raw_t_main.extend(offset_times)
@@ -155,13 +154,12 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
                 delta_val = abs(data[1, 0] - data[0, 0])
                 subset_size = max(3, math.floor(30 / (delta_val if delta_val > 1e-9 else 0.15)))
 
-            def process_subsets(points, channel_name):
+            def process_subsets(points, channel_name, file_start_offset_local):
                 noise_values = []
                 intervals = []
                 
                 # Pre-calculate values to avoid repeated computation
                 points_len = len(points)
-                time_offset_adjustment = time_offset - (offset_times[-1] - times[-1])
                 
                 # Use numpy array slicing for better performance
                 for i in range(0, points_len, subset_size):
@@ -178,14 +176,14 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
                         noise_values.append(noise_val)
                         
                         # Record interval info: (start_time, end_time, noise_value, file_index, channel, filename)
-                        start_time = subset[0, 0] + time_offset_adjustment
-                        end_time = subset[-1, 0] + time_offset_adjustment
+                        start_time = subset[0, 0] + file_start_offset_local
+                        end_time = subset[-1, 0] + file_start_offset_local
                         intervals.append((start_time, end_time, noise_val, file_index, channel_name, file_names[file_index]))
                 
                 return noise_values, intervals
 
-            main_noise_values, main_intervals = process_subsets(pointsMain, 'Main')
-            ref_noise_values, ref_intervals = process_subsets(pointsRef, 'Reference')
+            main_noise_values, main_intervals = process_subsets(pointsMain, 'Main', file_start_offset)
+            ref_noise_values, ref_intervals = process_subsets(pointsRef, 'Reference', file_start_offset)
 
             all_main_noise_values.extend(main_noise_values)
             all_ref_noise_values.extend(ref_noise_values)
@@ -194,6 +192,13 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
             
             print(f"  Main: {len(main_noise_values)} intervals, Reference: {len(ref_noise_values)} intervals")
             print(f"  Total collected - Main: {len(all_main_noise_values)}, Reference: {len(all_ref_noise_values)}")
+
+            # Stop once we have at least 120 intervals per channel inside the analysis window (post warm-up)
+            main_window_count = sum(1 for start_time, _, _, _, _, _ in main_noise_intervals if analysis_start_seconds <= start_time <= analysis_end_seconds)
+            ref_window_count = sum(1 for start_time, _, _, _, _, _ in ref_noise_intervals if analysis_start_seconds <= start_time <= analysis_end_seconds)
+            if main_window_count >= 120 and ref_window_count >= 120:
+                print(f"Target of 120 intervals in analysis window reached for both channels, stopping at file {file_index + 1}")
+                break
         
         except FileNotFoundError:
             print(f"  Error: File not found - {filename}")
@@ -217,26 +222,30 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
     # Remove the old file index increment since we're using enumerate now
     # file_index += 1
 
-    # Filter noise values to only include those from the first 3600 seconds (matching high noise interval logic)
-    main_noise_3600s = []
-    ref_noise_3600s = []
+    # Filter noise values to only include those after warm-up (30 min) across a 3600-second window
+    analysis_start_seconds = 1800  # 30 minutes warm-up
+    analysis_window_seconds = 3600 # 120 intervals * 30 seconds
+    analysis_end_seconds = analysis_start_seconds + analysis_window_seconds
+
+    main_noise_window = []
+    ref_noise_window = []
     
-    # Extract noise values only from intervals within 0-3600 seconds
+    # Extract noise values only from intervals that start within the analysis window
     for start_time, end_time, noise_val, file_idx, channel, filename in main_noise_intervals:
-        if 0 <= start_time <= 3600:
-            main_noise_3600s.append(noise_val)
+        if analysis_start_seconds <= start_time <= analysis_end_seconds:
+            main_noise_window.append(noise_val)
     
     for start_time, end_time, noise_val, file_idx, channel, filename in ref_noise_intervals:
-        if 0 <= start_time <= 3600:
-            ref_noise_3600s.append(noise_val)
+        if analysis_start_seconds <= start_time <= analysis_end_seconds:
+            ref_noise_window.append(noise_val)
     
-    # Truncate to first 120 intervals from the 3600-second timeframe
-    main_noise_truncated = main_noise_3600s[:120]
-    ref_noise_truncated = ref_noise_3600s[:120]
+    # Truncate to first 120 intervals from the analysis window
+    main_noise_truncated = main_noise_window[:120]
+    ref_noise_truncated = ref_noise_window[:120]
     
-    print(f"\nNoise statistics calculated from 3600-second timeframe:")
-    print(f"Main Channel: {len(main_noise_truncated)} intervals (from 0-3600s)")
-    print(f"Reference Channel: {len(ref_noise_truncated)} intervals (from 0-3600s)")
+    print(f"\nNoise statistics calculated from {analysis_start_seconds/60:.1f}-{analysis_end_seconds/60:.1f} minutes (post warm-up):")
+    print(f"Main Channel: {len(main_noise_truncated)} intervals")
+    print(f"Reference Channel: {len(ref_noise_truncated)} intervals")
 
     main_mean = np.mean(main_noise_truncated) if main_noise_truncated else np.nan
     main_max = np.max(main_noise_truncated) if main_noise_truncated else np.nan
@@ -248,12 +257,11 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         # Combine all intervals from both channels
         all_intervals = main_noise_intervals + ref_noise_intervals
         
-        # Filter intervals to only include those between 0 and 3600 seconds
+        # Filter intervals to only include those inside the analysis window (post warm-up)
         filtered_time_intervals = []
         for interval in all_intervals:
             start_time, end_time, noise_val, file_idx, channel, filename = interval
-            # Only include intervals that start within the first hour (0-3600 seconds)
-            if 0 <= start_time <= 3600:
+            if analysis_start_seconds <= start_time <= analysis_end_seconds:
                 filtered_time_intervals.append(interval)
         
         # Choose filtering method: threshold or top-N
@@ -300,9 +308,9 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         
         # Display high noise intervals with both channel values
         if noise_threshold is not None:
-            interval_text = f"\nHigh Noise Intervals Above {noise_threshold} (0-3600s only, {len(sorted_groups)} found):\n"
+            interval_text = f"\nHigh Noise Intervals Above {noise_threshold} ({analysis_start_seconds/60:.1f}-{analysis_end_seconds/60:.1f} min window, {len(sorted_groups)} found):\n"
         else:
-            interval_text = f"\nTop {len(sorted_groups)} High Noise Intervals (0-3600s only):\n"
+            interval_text = f"\nTop {len(sorted_groups)} High Noise Intervals ({analysis_start_seconds/60:.1f}-{analysis_end_seconds/60:.1f} min window):\n"
         interval_text += "=" * 70 + "\n"
         for i, group in enumerate(sorted_groups, 1):
             start_min = group['start_time'] / 60.0
@@ -919,15 +927,22 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         ref_range = ref_max_val - ref_min_val
         ax2.set_ylim(ref_min_val, ref_max_val + 0.2 * ref_range)
 
-        # Add vertical line at 60 minutes
-        vline = ax1.axvline(x=60, color='red', linestyle='--', linewidth=2, alpha=0.7, label='ASTM Time Interval limit')
+        # Add vertical markers for warm-up end and analysis window end
+        warmup_line = ax1.axvline(x=analysis_start_seconds/60.0, color='green', linestyle='--', linewidth=2, alpha=0.7, label='Warm-up end (30m)')
+        analysis_end_line = ax1.axvline(x=analysis_end_seconds/60.0, color='red', linestyle='--', linewidth=2, alpha=0.7, label='Analysis window end (90m)')
+
+        # Default view: show the analysis window with ±5 minutes padding
+        pad_seconds = 300  # 5 minutes
+        display_start_min = max(0.0, (analysis_start_seconds - pad_seconds) / 60.0)
+        display_end_min = (analysis_end_seconds + pad_seconds) / 60.0
+        ax1.set_xlim(display_start_min, display_end_min)
 
         # Legend outside right - include high noise intervals if present
-        main_label = f"Main\nNoise Mean (0-3600s): {main_mean:.3f}\nNoise Max (0-3600s): {main_max:.3f}"
-        ref_label = f"Reference\nNoise Mean (0-3600s): {ref_mean:.3f}\nNoise Max (0-3600s): {ref_max:.3f}"
+        main_label = f"Main\nNoise Mean (30-90m): {main_mean:.3f}\nNoise Max (30-90m): {main_max:.3f}"
+        ref_label = f"Reference\nNoise Mean (30-90m): {ref_mean:.3f}\nNoise Max (30-90m): {ref_max:.3f}"
         
-        legend_items = [pts1, pts2, vline]
-        legend_labels = [main_label, ref_label, "ASTM time limit"]
+        legend_items = [pts1, pts2, warmup_line, analysis_end_line]
+        legend_labels = [main_label, ref_label, "Warm-up end (30m)", "Analysis window end (90m)"]
         
         if high_noise_legend_item is not None:
             legend_items.append(high_noise_legend_item)
@@ -1009,7 +1024,6 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         all_t_main, all_i_main = [], []
         all_t_ref, all_i_ref = [], []
         time_offset = 0.0
-        first_file_end_time = None  # Track when first file ends
         
         for i, filepath in enumerate(all_files):
             try:
@@ -1025,10 +1039,6 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
                 
                 # Update time offset for next file
                 time_offset = offset_times[-1]
-                
-                # Track when first file ends (for green line)
-                if i == 0:
-                    first_file_end_time = offset_times[-1]
                 
             except Exception as e:
                 print(f"Error loading {filepath}: {e}")
@@ -1074,36 +1084,24 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         ref_range = ref_max_val - ref_min_val
         ax2.set_ylim(ref_min_val, ref_max_val + 0.2 * ref_range)
 
-        # Add green vertical line at end of first file (start of second dataset)
-        if first_file_end_time is not None:
-            first_file_end_hours = first_file_end_time / 3600.0
-            vline_green = ax1.axvline(x=first_file_end_hours, color='green', linestyle='--', 
-                                    linewidth=2, alpha=0.7, label='ASTM Noise Interval start')
-            
-            # Add red vertical line 60 minutes (1 hour) after the green line
-            astm_limit_hours = first_file_end_hours + 1.0  # 60 minutes = 1 hour
-            vline_red = ax1.axvline(x=astm_limit_hours, color='red', linestyle='--', 
-                                  linewidth=2, alpha=0.7, label='ASTM Time Interval limit')
-        else:
-            # Fallback: just add red line at 1 hour if no first file data
-            vline_red = ax1.axvline(x=1.0, color='red', linestyle='--', 
-                                  linewidth=2, alpha=0.7, label='ASTM Time Interval limit')
-            vline_green = None
+        # Show warm-up end and analysis window end for the full dataset timeline
+        warmup_line = ax1.axvline(x=analysis_start_seconds/3600.0, color='green', linestyle='--', 
+                                linewidth=2, alpha=0.7, label='Warm-up end (0.5h)')
+        analysis_end_line = ax1.axvline(x=analysis_end_seconds/3600.0, color='red', linestyle='--', 
+                                       linewidth=2, alpha=0.7, label='Analysis window end (1.5h)')
 
         # Legend outside right
-        main_label = f"Main\nNoise Mean (0-3600s): {main_mean:.3f}\nNoise Max (0-3600s): {main_max:.3f}"
-        ref_label = f"Reference\nNoise Mean (0-3600s): {ref_mean:.3f}\nNoise Max (0-3600s): {ref_max:.3f}"
+        main_label = f"Main\nNoise Mean (30-90m): {main_mean:.3f}\nNoise Max (30-90m): {main_max:.3f}"
+        ref_label = f"Reference\nNoise Mean (30-90m): {ref_mean:.3f}\nNoise Max (30-90m): {ref_max:.3f}"
         
         # Build legend based on which lines exist
         legend_items = [pts1, pts2]
         legend_labels = [main_label, ref_label]
         
-        if vline_green is not None:
-            legend_items.append(vline_green)
-            legend_labels.append("ASTM Time Interval start")
-            
-        legend_items.append(vline_red)
-        legend_labels.append("ASTM Time Interval limit")
+        legend_items.append(warmup_line)
+        legend_labels.append("Warm-up end (0.5h)")
+        legend_items.append(analysis_end_line)
+        legend_labels.append("Analysis window end (1.5h)")
         
         ax1.legend(legend_items, legend_labels,
                    loc='upper left',
