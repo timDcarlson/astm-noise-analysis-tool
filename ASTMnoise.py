@@ -113,6 +113,17 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
               (f" ... and {len(files_to_process) - 6} more" if len(files_to_process) > 6 else ""))
     else:
         print("No subsequent files found - will process only the selected file")
+
+    # Analysis window: warm-up ends at 30 minutes, then analyze the next 60 minutes (120x 30s intervals)
+    analysis_start_seconds = 1800  # 30 minutes warm-up
+    analysis_window_seconds = 3600  # 120 intervals * 30 seconds
+    analysis_end_seconds = analysis_start_seconds + analysis_window_seconds
+
+    # Track 30s mean intensity at the start/end of the analysis window (per channel)
+    start_intensity_main = None
+    end_intensity_main = None
+    start_intensity_ref = None
+    end_intensity_ref = None
     
     # Process files automatically until we have enough data
     for file_index, filepath in enumerate(files_to_process):
@@ -157,6 +168,8 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
             def process_subsets(points, channel_name, file_start_offset_local):
                 noise_values = []
                 intervals = []
+                first_window_mean = None
+                last_window_mean = None
                 
                 # Pre-calculate values to avoid repeated computation
                 points_len = len(points)
@@ -174,16 +187,34 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
                     if len(subset) > 2:
                         noise_val = calculate_max_noise(subset)
                         noise_values.append(noise_val)
+
+                        mean_intensity = float(np.mean(subset[:, 1]))
                         
                         # Record interval info: (start_time, end_time, noise_value, file_index, channel, filename)
                         start_time = subset[0, 0] + file_start_offset_local
                         end_time = subset[-1, 0] + file_start_offset_local
                         intervals.append((start_time, end_time, noise_val, file_index, channel_name, file_names[file_index]))
-                
-                return noise_values, intervals
 
-            main_noise_values, main_intervals = process_subsets(pointsMain, 'Main', file_start_offset)
-            ref_noise_values, ref_intervals = process_subsets(pointsRef, 'Reference', file_start_offset)
+                        # Capture start/end 30s mean intensities inside the analysis window
+                        if analysis_start_seconds <= start_time <= analysis_end_seconds:
+                            if first_window_mean is None:
+                                first_window_mean = mean_intensity
+                            last_window_mean = mean_intensity
+                
+                return noise_values, intervals, first_window_mean, last_window_mean
+
+            main_noise_values, main_intervals, main_first_mean, main_last_mean = process_subsets(pointsMain, 'Main', file_start_offset)
+            ref_noise_values, ref_intervals, ref_first_mean, ref_last_mean = process_subsets(pointsRef, 'Reference', file_start_offset)
+
+            if start_intensity_main is None and main_first_mean is not None:
+                start_intensity_main = main_first_mean
+            if main_last_mean is not None:
+                end_intensity_main = main_last_mean
+
+            if start_intensity_ref is None and ref_first_mean is not None:
+                start_intensity_ref = ref_first_mean
+            if ref_last_mean is not None:
+                end_intensity_ref = ref_last_mean
 
             all_main_noise_values.extend(main_noise_values)
             all_ref_noise_values.extend(ref_noise_values)
@@ -222,11 +253,6 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
     # Remove the old file index increment since we're using enumerate now
     # file_index += 1
 
-    # Filter noise values to only include those after warm-up (30 min) across a 3600-second window
-    analysis_start_seconds = 1800  # 30 minutes warm-up
-    analysis_window_seconds = 3600 # 120 intervals * 30 seconds
-    analysis_end_seconds = analysis_start_seconds + analysis_window_seconds
-
     main_noise_window = []
     ref_noise_window = []
     
@@ -251,6 +277,18 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
     main_max = np.max(main_noise_truncated) if main_noise_truncated else np.nan
     ref_mean = np.mean(ref_noise_truncated) if ref_noise_truncated else np.nan
     ref_max = np.max(ref_noise_truncated) if ref_noise_truncated else np.nan
+
+    def symmetric_percent_difference(start_val, end_val):
+        """Symmetric percent difference (signed): 200*(end-start)/(abs(end)+abs(start))."""
+        if start_val is None or end_val is None:
+            return np.nan
+        denom = abs(float(start_val)) + abs(float(end_val))
+        if denom <= 0:
+            return np.nan
+        return 200.0 * (float(end_val) - float(start_val)) / denom
+
+    main_drift = symmetric_percent_difference(start_intensity_main, end_intensity_main)
+    ref_drift = symmetric_percent_difference(start_intensity_ref, end_intensity_ref)
 
     # === High Noise Interval Analysis ===
     if show_high_noise_intervals and (n_intervals > 0 or noise_threshold is not None):
@@ -699,9 +737,9 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         try:
             with open(output_filename, 'w', newline='') as csvfile:
                 writer = csv.writer(csvfile)
-                writer.writerow(['Channel', 'Mean (0-3600s)', 'Max (0-3600s)'])
-                writer.writerow(['Main', main_mean, main_max])
-                writer.writerow(['Reference', ref_mean, ref_max])
+                writer.writerow(['Channel', 'Mean (1800s-5400s)', 'Max (1800s-5400s)', 'Starting intensity', 'Drift'])
+                writer.writerow(['Main', main_mean, main_max, start_intensity_main, main_drift])
+                writer.writerow(['Reference', ref_mean, ref_max, start_intensity_ref, ref_drift])
         except Exception as e:
             messagebox.showerror("Export Error", f"Error exporting to CSV: {e}")
     else:
@@ -873,7 +911,29 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
             export_detail_button.pack(pady=5)
 
     # === embed scatter plot of all raw data ===
-    def plot_scatter(t_main, i_main, t_ref, i_ref, main_mean, main_max, ref_mean, ref_max, output_directory, high_noise_intervals=None):
+    def plot_scatter(
+        t_main,
+        i_main,
+        t_ref,
+        i_ref,
+        main_mean,
+        main_max,
+        ref_mean,
+        ref_max,
+        start_intensity_main,
+        start_intensity_ref,
+        main_drift,
+        ref_drift,
+        output_directory,
+        high_noise_intervals=None,
+    ):
+        def format_eng(value: float | None) -> str:
+            if value is None:
+                return "N/A"
+            try:
+                return f"{float(value):.2e}"
+            except (TypeError, ValueError):
+                return "N/A"
         # Create separate window for ASTM noise plot
         astm_window = tk.Toplevel()
         astm_window.title("ASTM Noise Interval Plot")
@@ -927,9 +987,23 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         ref_range = ref_max_val - ref_min_val
         ax2.set_ylim(ref_min_val, ref_max_val + 0.2 * ref_range)
 
-        # Add vertical markers for warm-up end and analysis window end
-        warmup_line = ax1.axvline(x=analysis_start_seconds/60.0, color='green', linestyle='--', linewidth=2, alpha=0.7, label='Warm-up end (30m)')
-        analysis_end_line = ax1.axvline(x=analysis_end_seconds/60.0, color='red', linestyle='--', linewidth=2, alpha=0.7, label='Analysis window end (90m)')
+        # Add vertical markers for ASTM analysis window start/end
+        warmup_line = ax1.axvline(
+            x=analysis_start_seconds / 60.0,
+            color='green',
+            linestyle='--',
+            linewidth=2,
+            alpha=0.7,
+            label=f"ASTM start: {analysis_start_seconds}s ({analysis_start_seconds/60.0:.0f}m)",
+        )
+        analysis_end_line = ax1.axvline(
+            x=analysis_end_seconds / 60.0,
+            color='red',
+            linestyle='--',
+            linewidth=2,
+            alpha=0.7,
+            label=f"ASTM end: {analysis_end_seconds}s ({analysis_end_seconds/60.0:.0f}m)",
+        )
 
         # Default view: show the analysis window with ±5 minutes padding
         pad_seconds = 300  # 5 minutes
@@ -938,11 +1012,26 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         ax1.set_xlim(display_start_min, display_end_min)
 
         # Legend outside right - include high noise intervals if present
-        main_label = f"Main\nNoise Mean (30-90m): {main_mean:.3f}\nNoise Max (30-90m): {main_max:.3f}"
-        ref_label = f"Reference\nNoise Mean (30-90m): {ref_mean:.3f}\nNoise Max (30-90m): {ref_max:.3f}"
+        main_label_lines = [
+            "Main",
+            f"Noise Mean (1800s-5400s): {main_mean:.3f}",
+            f"Noise Max (1800s-5400s): {main_max:.3f}",
+            f"Start Intensity (1800s): {format_eng(start_intensity_main)}",
+            f"Drift: {main_drift:.3f}%" if np.isfinite(main_drift) else "Drift: N/A",
+        ]
+        main_label = "\n".join(main_label_lines)
+
+        ref_label_lines = [
+            "Reference",
+            f"Noise Mean (1800s-5400s): {ref_mean:.3f}",
+            f"Noise Max (1800s-5400s): {ref_max:.3f}",
+            f"Start Intensity (1800s): {format_eng(start_intensity_ref)}",
+            f"Drift: {ref_drift:.3f}%" if np.isfinite(ref_drift) else "Drift: N/A",
+        ]
+        ref_label = "\n".join(ref_label_lines)
         
         legend_items = [pts1, pts2, warmup_line, analysis_end_line]
-        legend_labels = [main_label, ref_label, "Warm-up end (30m)", "Analysis window end (90m)"]
+        legend_labels = [main_label, ref_label, warmup_line.get_label(), analysis_end_line.get_label()]
         
         if high_noise_legend_item is not None:
             legend_items.append(high_noise_legend_item)
@@ -967,8 +1056,22 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
     # Plot and capture the Figure for export
     # Pass high noise intervals if they were calculated
     high_intervals_to_plot = sorted_groups if show_high_noise_intervals and (n_intervals > 0 or noise_threshold is not None) and 'sorted_groups' in locals() else None
-    scatter_fig, astm_window = plot_scatter(raw_t_main, raw_i_main, raw_t_ref, raw_i_ref,
-                               main_mean, main_max, ref_mean, ref_max, output_directory, high_intervals_to_plot)
+    scatter_fig, astm_window = plot_scatter(
+        raw_t_main,
+        raw_i_main,
+        raw_t_ref,
+        raw_i_ref,
+        main_mean,
+        main_max,
+        ref_mean,
+        ref_max,
+        start_intensity_main,
+        start_intensity_ref,
+        main_drift,
+        ref_drift,
+        output_directory,
+        high_intervals_to_plot,
+    )
 
     # Add button to export the first plot
     def export_plot():
@@ -1004,7 +1107,7 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
     export_button.pack(pady=5)
 
     # === Create second plot with all files in folder ===
-    def plot_all_files_in_folder(folder_path, main_mean, main_max, ref_mean, ref_max):
+    def plot_all_files_in_folder(folder_path, main_mean, main_max, ref_mean, ref_max, main_drift, ref_drift):
         # Find all files matching the naming convention
         pattern = os.path.join(folder_path, "*_*_DataCollection.txt")
         all_files = glob.glob(pattern)
@@ -1085,23 +1188,38 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         ax2.set_ylim(ref_min_val, ref_max_val + 0.2 * ref_range)
 
         # Show warm-up end and analysis window end for the full dataset timeline
-        warmup_line = ax1.axvline(x=analysis_start_seconds/3600.0, color='green', linestyle='--', 
-                                linewidth=2, alpha=0.7, label='Warm-up end (0.5h)')
-        analysis_end_line = ax1.axvline(x=analysis_end_seconds/3600.0, color='red', linestyle='--', 
-                                       linewidth=2, alpha=0.7, label='Analysis window end (1.5h)')
+        warmup_line = ax1.axvline(
+            x=analysis_start_seconds / 3600.0,
+            color='green',
+            linestyle='--',
+            linewidth=2,
+            alpha=0.7,
+            label=f"ASTM start: {analysis_start_seconds}s ({analysis_start_seconds/3600.0:.2f}h)",
+        )
+        analysis_end_line = ax1.axvline(
+            x=analysis_end_seconds / 3600.0,
+            color='red',
+            linestyle='--',
+            linewidth=2,
+            alpha=0.7,
+            label=f"ASTM end: {analysis_end_seconds}s ({analysis_end_seconds/3600.0:.2f}h)",
+        )
 
         # Legend outside right
-        main_label = f"Main\nNoise Mean (30-90m): {main_mean:.3f}\nNoise Max (30-90m): {main_max:.3f}"
-        ref_label = f"Reference\nNoise Mean (30-90m): {ref_mean:.3f}\nNoise Max (30-90m): {ref_max:.3f}"
+        main_label = f"Main\nNoise Mean (1800s-5400s): {main_mean:.3f}\nNoise Max (1800s-5400s): {main_max:.3f}"
+        main_label += f"\nDrift: {main_drift:.3f}%" if np.isfinite(main_drift) else "\nDrift: N/A"
+
+        ref_label = f"Reference\nNoise Mean (1800s-5400s): {ref_mean:.3f}\nNoise Max (1800s-5400s): {ref_max:.3f}"
+        ref_label += f"\nDrift: {ref_drift:.3f}%" if np.isfinite(ref_drift) else "\nDrift: N/A"
         
         # Build legend based on which lines exist
         legend_items = [pts1, pts2]
         legend_labels = [main_label, ref_label]
         
         legend_items.append(warmup_line)
-        legend_labels.append("Warm-up end (0.5h)")
+        legend_labels.append(warmup_line.get_label())
         legend_items.append(analysis_end_line)
-        legend_labels.append("Analysis window end (1.5h)")
+        legend_labels.append(analysis_end_line.get_label())
         
         ax1.legend(legend_items, legend_labels,
                    loc='upper left',
@@ -1122,7 +1240,15 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
 
     # Generate the second plot if files are available and requested
     if output_directory and show_complete_dataset:
-        all_files_fig, file_count, total_hours = plot_all_files_in_folder(output_directory, main_mean, main_max, ref_mean, ref_max)
+        all_files_fig, file_count, total_hours = plot_all_files_in_folder(
+            output_directory,
+            main_mean,
+            main_max,
+            ref_mean,
+            ref_max,
+            main_drift,
+            ref_drift,
+        )
         
         if all_files_fig is not None:
             # Create separate window for complete dataset plot
