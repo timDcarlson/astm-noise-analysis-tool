@@ -15,6 +15,9 @@
 - [x] `run_astm_noise.bat` - Windows batch launcher
 - [x] `run_astm_noise.ps1` - PowerShell launcher (recommended)
 - [x] `INSTALL.bat` - Simple double-click installer
+- [x] `setup_env.sh` - macOS/Linux setup helper (creates local `./.venv`)
+- [x] `run_astm_noise.sh` - macOS/Linux launcher
+- [x] `INSTALL.sh` - macOS/Linux quick installer
 - [x] `requirements.txt` - Python dependencies
 
 ### Documentation
@@ -42,7 +45,9 @@
 ## Distribution Package Structure
 
 ```
-ASTM-Noise-Analysis-Tool-v2.1.0/
+ASTM-Noise-Analysis-Tool-v3.2.0/
+├── create_distribution.ps1
+├── create_distribution.sh
 ├── ASTMnoise.py
 ├── convexHull.py
 ├── config.py
@@ -54,6 +59,9 @@ ASTM-Noise-Analysis-Tool-v2.1.0/
 ├── run_astm_noise.bat
 ├── run_astm_noise.ps1
 ├── INSTALL.bat
+├── setup_env.sh
+├── run_astm_noise.sh
+├── INSTALL.sh
 ├── README.md
 ├── HELP.md
 ├── DISTRIBUTION.md
@@ -93,7 +101,7 @@ ASTM-Noise-Analysis-Tool-v2.1.0/
 
 2. **Create package folder**
    ```powershell
-   $packageName = "ASTM-Noise-Analysis-Tool-v2.1.0"
+   $packageName = "ASTM-Noise-Analysis-Tool-v3.2.0"
    New-Item -ItemType Directory -Name $packageName
    ```
 
@@ -120,3 +128,4 @@ ASTM-Noise-Analysis-Tool-v2.1.0/
 - No administrator privileges required for installation
 - Virtual environment keeps installation isolated
 - Tool can be moved after setup without breaking functionality
+- All setup scripts enforce wheel-only installs (`pip --only-binary=:all:`)

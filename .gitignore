@@ -102,8 +102,8 @@ ASTM-Noise-Analysis-Tool-v*.zip
 ASTM-Noise-Analysis-Tool-v*/
 
 # Keep the latest distribution
-!ASTM-Noise-Analysis-Tool-v3.1.1/
-!ASTM-Noise-Analysis-Tool-v3.1.1.zip
+!ASTM-Noise-Analysis-Tool-v3.2.0/
+!ASTM-Noise-Analysis-Tool-v3.2.0.zip
 
 # Untracked directories to keep
 D2 Lamp Data - analyzed/

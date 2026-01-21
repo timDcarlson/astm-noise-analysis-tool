@@ -1,7 +1,7 @@
 """ASTM Noise Analysis Tool - Configuration and Constants
 """
 
-__version__ = "3.1.1"
+__version__ = "3.2.0"
 
 # Application metadata
 APP_NAME = "ASTM Noise Analysis Tool"

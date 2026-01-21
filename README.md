@@ -1,6 +1,6 @@
 # ASTM Noise Analysis Tool
 
-**Version 3.1.1** - A Python-based tool for analyzing noise in lamp data according to ASTM standards. This application provides a modern GUI interface with separate plot windows for analyzing noise statistics and visualizing complete datasets.
+**Version 3.2.0** - A Python-based tool for analyzing noise in lamp data according to ASTM standards. This release adds macOS/Linux helpers, enforces wheel-only installs, and keeps the same GUI/reporting experience across platforms.
 
 ## Features
 
@@ -20,6 +20,12 @@
 ## System Requirements
 
 **Python Version**: This package requires **Python 3.12 or Python 3.13**. Python 3.14 is not yet supported as pre-built wheels for core numerical libraries (NumPy, SciPy, matplotlib) are not yet available for this version.
+
+**Operating Systems**:
+- Windows 7 or later (PowerShell recommended)
+- macOS (ARM/x86) and Linux distributions with Python 3 installed
+
+All setup scripts now enforce `pip --only-binary=:all:` so installation always uses prebuilt wheels.
 
 ## Setup on a New Computer
 
@@ -79,6 +85,11 @@
    run_astm_noise.bat
    ```
 
+   **Option C - macOS/Linux:**
+   ```bash
+   ./run_astm_noise.sh
+   ```
+
 ## Command Line Usage
 
 ### Basic Usage (ASTM plot only - faster):
@@ -105,6 +116,8 @@ python ASTMnoise.py --help
 - `setup_env.ps1` - Environment setup script (PowerShell)
 - `setup_env.bat` - Environment setup script (Batch)
 - `requirements.txt` - Python package dependencies
+- `setup_env.sh` / `INSTALL.sh` - macOS/Linux setup helpers (create local `./.venv`)
+- `run_astm_noise.sh` - macOS/Linux launcher
 - `README.md` - This documentation file
 
 ## Usage Workflow

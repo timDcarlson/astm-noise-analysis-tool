@@ -4,7 +4,7 @@ ASTM Noise Analysis Tool
 A Python-based tool for analyzing noise in deuterium lamp data according to ASTM standards.
 Provides GUI interface for loading data files, calculating noise parameters, and visualizing results.
 
-Version: 3.1.1
+Version: 3.2.0
 Author: Tim Carlson
 """
 

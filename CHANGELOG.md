@@ -1,6 +1,21 @@
 # Changelog
-
+ 
 All notable changes to the ASTM Noise Analysis Tool will be documented in this file.
+
+## [3.2.0] - 2026-01-20
+
+### Added
+- macOS/Linux helpers: `create_distribution.sh`, `setup_env.sh`, `run_astm_noise.sh`, and `INSTALL.sh` bring the pipeline to non-Windows platforms.
+- Wheel-only install enforcement for *all* setup scripts (`--only-binary=:all:`) to prevent lengthy source builds.
+- Distribution docs now describe the broader platform support and new version number.
+ 
+### Changed
+- Updated documentation (README, HELP, DISTRIBUTION, PACKAGE_CHECKLIST) to reflect version 3.2.0 and the new workflows.
+- Updated Python metadata (`config.py`, `__init__.py`, `ASTMnoise.py`) to publish release 3.2.0.
+- Distribution tooling (PowerShell + bash) now defaults to `ASTM-Noise-Analysis-Tool-v3.2.0`.
+ 
+### Fixed
+- Cleaned up instructions, remove old merge markers, and align packaging scripts with version 3.2.0.
 
 ## [3.1.1] - 2025-07-18
 

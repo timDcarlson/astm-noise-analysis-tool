@@ -109,132 +109,35 @@ if (-not (Test-Path $pythonExe)) {
 
 # Install packages
 Write-Host "Installing required packages..." -ForegroundColor Green
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 206fc0808214fdd361282a3921544468223baef1
 
-# Function to install packages with fallback methods
-function Install-Packages {
-    param (
-        [string]$PythonExe,
-        [bool]$IsWindowsStore
-    )
-    
-    # First, upgrade pip
+try {
     Write-Host "  Upgrading pip..." -ForegroundColor Gray
-    try {
-        & $PythonExe -m pip install --upgrade pip 2>&1 | Out-Null
-    } catch {
-        Write-Host "  Warning: Could not upgrade pip, continuing with existing version..." -ForegroundColor Yellow
-    }
-    
-    if (Test-Path "requirements.txt") {
-        Write-Host "  Installing packages from requirements.txt..." -ForegroundColor Gray
-        
-        # Try with wheels first (fastest and most compatible)
-        try {
-            & $PythonExe -m pip install --only-binary :all: -r requirements.txt
-            if ($LASTEXITCODE -eq 0) {
-                return $true
-            }
-        } catch {
-            Write-Host "  Wheel-only installation failed, trying with compilation allowed..." -ForegroundColor Yellow
-        }
-        
-        # Fallback: Allow source builds if wheels fail
-        try {
-            & $PythonExe -m pip install -r requirements.txt
-            if ($LASTEXITCODE -eq 0) {
-                Write-Host "  Note: Some packages were built from source (this is normal)" -ForegroundColor Yellow
-                return $true
-            }
-        } catch {
-            Write-Host "  Package installation failed: $_" -ForegroundColor Red
-            return $false
-        }
-        
-        # If we get here, installation failed
-        Write-Host "  Error: Could not install packages from requirements.txt" -ForegroundColor Red
-        
-        # Try installing packages one by one to identify problems
-        Write-Host "  Attempting to install packages individually..." -ForegroundColor Yellow
-        $failed = @()
-        Get-Content "requirements.txt" | ForEach-Object {
-            $pkg = $_.Trim()
-            if ($pkg -and -not $pkg.StartsWith('#')) {
-                Write-Host "    Installing $pkg..." -ForegroundColor Gray
-                try {
-                    & $PythonExe -m pip install $pkg 2>&1 | Out-Null
-                    if ($LASTEXITCODE -ne 0) {
-                        $failed += $pkg
-                        Write-Host "      Failed: $pkg" -ForegroundColor Red
-                    }
-                } catch {
-                    $failed += $pkg
-                    Write-Host "      Failed: $pkg" -ForegroundColor Red
-                }
-            }
-        }
-        
-        if ($failed.Count -gt 0) {
-            Write-Host "`n  Failed to install: $($failed -join ', ')" -ForegroundColor Red
-            return $false
-        }
-        return $true
-    } else {
-        # No requirements.txt - install basic packages
-        Write-Host "  Warning: requirements.txt not found. Installing basic packages..." -ForegroundColor Yellow
-        $basicPackages = @('numpy', 'matplotlib', 'scipy')
-        
-        foreach ($pkg in $basicPackages) {
-            Write-Host "    Installing $pkg..." -ForegroundColor Gray
-            try {
-                & $PythonExe -m pip install $pkg
-            } catch {
-                Write-Host "      Warning: Failed to install $pkg" -ForegroundColor Yellow
-            }
-        }
-        return $true
-    }
+    & $pythonExe -m pip install --upgrade pip | Out-Null
+} catch {
+    Write-Host "  Warning: Could not upgrade pip; continuing..." -ForegroundColor Yellow
 }
 
-$success = Install-Packages -PythonExe $pythonExe -IsWindowsStore $python.IsWindowsStore
-
-if ($success) {
-    Write-Host "`nEnvironment setup complete!" -ForegroundColor Green
-<<<<<<< HEAD
-    Write-Host "Virtual environment created at: $venvPath" -ForegroundColor Cyan
-    Write-Host "You can now run 'run_astm_noise.ps1' to start the application." -ForegroundColor Cyan
-} else {
-    Write-Host "`nSetup completed with errors!" -ForegroundColor Yellow
-=======
-    Write-Host "Virtual environment created at: $venvPath" -ForegroundColor Cyan
-    Write-Host "You can now run 'run_astm_noise.ps1' to start the application." -ForegroundColor Cyan
-} else {
-    Write-Host "`nSetup completed with errors!" -ForegroundColor Yellow
-=======
-$pythonExe = Join-Path $venvPath "Scripts\python.exe"
 if (Test-Path "requirements.txt") {
-    & $pythonExe -m pip install --upgrade pip
+    Write-Host "  Installing packages from requirements.txt (wheels only)..." -ForegroundColor Gray
     & $pythonExe -m pip install --only-binary :all: -r requirements.txt
-    Write-Host "Environment setup complete!" -ForegroundColor Green
-    Write-Host "Virtual environment created at: $venvPath" -ForegroundColor Cyan
-    Write-Host "You can now run 'run_astm_noise.ps1' to start the application." -ForegroundColor Cyan
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "`nError: Wheel-only installation failed." -ForegroundColor Red
+        Write-Host "This installer requires prebuilt wheels (no source builds)." -ForegroundColor Yellow
+        exit 1
+    }
 } else {
-    Write-Host "Warning: requirements.txt not found. Installing basic packages..." -ForegroundColor Yellow
-    & $pythonExe -m pip install --upgrade pip
+    Write-Host "  Warning: requirements.txt not found. Installing basic packages (wheels only)..." -ForegroundColor Yellow
     & $pythonExe -m pip install --only-binary :all: numpy matplotlib scipy
-    Write-Host "Basic setup complete. You may need to install additional packages as needed." -ForegroundColor Yellow
->>>>>>> 68e894c7f1ad82673a4945626a0c35375333bc91
->>>>>>> 206fc0808214fdd361282a3921544468223baef1
-    Write-Host "Virtual environment created at: $venvPath" -ForegroundColor Cyan
-    Write-Host "You may need to manually install missing packages." -ForegroundColor Yellow
-    if ($python.IsWindowsStore) {
-        Write-Host "`nWindows Store Python Note:" -ForegroundColor Yellow
-        Write-Host "  Consider installing Python from python.org for better compatibility." -ForegroundColor Cyan
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "`nError: Wheel-only installation failed." -ForegroundColor Red
+        Write-Host "This installer requires prebuilt wheels (no source builds)." -ForegroundColor Yellow
+        exit 1
     }
 }
+
+Write-Host "`nEnvironment setup complete!" -ForegroundColor Green
+Write-Host "Virtual environment created at: $venvPath" -ForegroundColor Cyan
+Write-Host "You can now run 'run_astm_noise.ps1' to start the application." -ForegroundColor Cyan
 
 Write-Host "`nPress any key to continue..." -ForegroundColor Cyan
 $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")

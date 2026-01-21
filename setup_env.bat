@@ -114,75 +114,28 @@ echo   Upgrading pip...
 "%VENV_PYTHON%" -m pip install --upgrade pip >nul 2>&1
 
 if exist "requirements.txt" (
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 206fc0808214fdd361282a3921544468223baef1
-    echo   Installing packages from requirements.txt...
-    
-    REM Try with wheels first
-    "%VENV_PYTHON%" -m pip install --only-binary :all: -r requirements.txt >nul 2>&1
-    if %errorlevel% equ 0 (
-        goto :install_success
-    )
-    
-    REM Fallback: Allow source builds
-    echo   Wheel-only installation failed, trying with compilation allowed...
-    "%VENV_PYTHON%" -m pip install -r requirements.txt
-    if %errorlevel% equ 0 (
-        echo   Note: Some packages were built from source (this is normal)
-        goto :install_success
-    )
-    
-    REM If that fails, try one by one
-    echo   Error: Batch installation failed. Trying packages individually...
-    set INSTALL_FAILED=0
-    for /f "tokens=*" %%a in (requirements.txt) do (
-        set LINE=%%a
-        REM Skip empty lines and comments
-        if not "!LINE!"=="" (
-            echo !LINE! | findstr /b /c:"#" >nul
-            if errorlevel 1 (
-                echo     Installing %%a...
-                "%VENV_PYTHON%" -m pip install %%a >nul 2>&1
-                if errorlevel 1 (
-                    echo       Failed: %%a
-                    set INSTALL_FAILED=1
-                )
-            )
-        )
-    )
-    if %INSTALL_FAILED% equ 1 (
+    echo   Installing packages from requirements.txt (wheels only)...
+    "%VENV_PYTHON%" -m pip install --only-binary :all: -r requirements.txt
+    if %errorlevel% neq 0 (
+        echo.
+        echo Error: Wheel-only installation failed.
+        echo This installer requires prebuilt wheels (no source builds).
+        echo Try a different Python version, or update requirements to versions with wheels.
         goto :install_partial
     )
-    goto :install_success
-<<<<<<< HEAD
 ) else (
     REM No requirements.txt - install basic packages
-    echo   Warning: requirements.txt not found. Installing basic packages...
-    "%VENV_PYTHON%" -m pip install numpy matplotlib scipy
-    goto :install_success
-=======
-) else (
-    REM No requirements.txt - install basic packages
-    echo   Warning: requirements.txt not found. Installing basic packages...
-    "%VENV_PYTHON%" -m pip install numpy matplotlib scipy
-    goto :install_success
-=======
-    "%VENV_PATH%\Scripts\python.exe" -m pip install --upgrade pip
-    "%VENV_PATH%\Scripts\python.exe" -m pip install --only-binary :all: -r requirements.txt
-    echo Environment setup complete!
-    echo Virtual environment created at: %VENV_PATH%
-    echo You can now run 'run_astm_noise.bat' to start the application.
-) else (
-    echo Warning: requirements.txt not found. Installing basic packages...
-    "%VENV_PATH%\Scripts\python.exe" -m pip install --upgrade pip
-    "%VENV_PATH%\Scripts\python.exe" -m pip install --only-binary :all: numpy matplotlib scipy
-    echo Basic setup complete. You may need to install additional packages as needed.
-    echo Virtual environment created at: %VENV_PATH%
->>>>>>> 68e894c7f1ad82673a4945626a0c35375333bc91
->>>>>>> 206fc0808214fdd361282a3921544468223baef1
+    echo   Warning: requirements.txt not found. Installing basic packages (wheels only)...
+    "%VENV_PYTHON%" -m pip install --only-binary :all: numpy matplotlib scipy
+    if %errorlevel% neq 0 (
+        echo.
+        echo Error: Wheel-only installation failed.
+        echo This installer requires prebuilt wheels (no source builds).
+        goto :install_partial
+    )
 )
+
+goto :install_success
 
 :install_success
 echo.
