@@ -5,8 +5,8 @@
 ## Features
 
 - **Multi-file Processing**: Load and process multiple tab-delimited data files
-- **Automated Noise Calculation**: Calculates noise using convex hull analysis
-- **Statistical Analysis**: Computes mean and maximum noise values for both main and reference channels
+- **Automated Noise Calculation**: Calculates ASTM noise using convex hull analysis
+- **ASTM Noise Paramters**: Computes "Drift," "Mean Noise," and "Max Noise" for both main and reference channels
 - **Dual Plot Visualization**: 
   - ASTM Noise Interval plot (minutes) with 60-minute compliance line
   - Optional Complete Dataset plot (hours) with total time display
@@ -16,6 +16,10 @@
 - **Separate Windows**: Each plot opens in its own dedicated window for better workflow
 - **Smart Export**: Automatic filename generation
 - **Command Line Options**: PowerShell integration with advanced parameter support
+
+## Future Updates
+
+- **Folder Selection**: Load all data files in a single folder by folder selection rather than single file selection
 
 ## System Requirements
 
@@ -216,3 +220,4 @@ The application expects tab-delimited text files with:
 - **Robust Processing**: Handles incomplete subsets and file errors gracefully
 - **Export Feedback**: Visual confirmation of successful file exports
 - **Argument Parsing**: Professional command-line interface with help documentation
+
