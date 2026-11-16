@@ -68,6 +68,6 @@ For technical support or questions about this tool, contact [Your Contact Inform
 
 ## Version Information
 
-**Current Version**: 3.2.0
-**Last Updated**: January 2026
+**Current Version**: 3.2.1
+**Last Updated**: November 2026
 **Compatible with**: Python 3.12/3.13 on Windows, macOS, and Linux (requires wheels-only dependencies)

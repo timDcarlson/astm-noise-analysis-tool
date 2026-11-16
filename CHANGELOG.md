@@ -2,6 +2,26 @@
  
 All notable changes to the ASTM Noise Analysis Tool will be documented in this file.
 
+## [3.2.1] - 2026-11-16
+
+### Fixed
+- `calculate_max_noise` now evaluates the enclosing-parallel-lines envelope at every convex hull
+  edge slope (including the closing edge), returning the exact minimum vertical envelope per the
+  ASTM definition. Earlier releases could report noise values that read high, especially for
+  intervals with signal drift. The same correction was applied to the MATLAB and Julia ports.
+- "Plot 30-Second Intervals" no longer does nothing silently when no interval meets the noise
+  threshold; an informative dialog explains the result and suggests next steps.
+
+### Added
+- "Plot 30-Second Intervals" can now plot qualifying intervals from any files selected in the
+  High Noise Intervals window, searching each entire file (not just the 30-90 min analysis window).
+- Selected-file interval plots are shown on the concatenated analysis timeline, and window/plot
+  titles include the source filename.
+
+### Changed
+- Noise-threshold semantics clarified throughout the GUI: the threshold applies to each
+  30-second interval's own noise value (either channel), not to the campaign mean.
+
 ## [3.2.0] - 2026-01-20
 
 ### Added

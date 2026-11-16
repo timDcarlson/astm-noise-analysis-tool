@@ -1,6 +1,6 @@
 # ASTM Noise Analysis Tool
 
-**Version 3.2.0** - A Python-based tool for analyzing noise in lamp data according to ASTM standards. This release adds macOS/Linux helpers, enforces wheel-only installs, and keeps the same GUI/reporting experience across platforms.
+**Version 3.2.1** - A Python-based tool for analyzing noise in lamp data according to ASTM standards. This release makes the noise envelope calculation exact, adds per-file 30-second interval plotting on the concatenated timeline, and clarifies the noise-threshold semantics.
 
 ## Features
 

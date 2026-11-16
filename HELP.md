@@ -172,6 +172,6 @@ This feature is particularly useful for:
 - **Memory Efficient**: Processes files incrementally to handle large datasets
 
 ## Version Information
-- **Created**: July 2025 (updated 3.2.0)
+- **Created**: July 2025 (updated 3.2.1)
 - **Python Requirements**: numpy, matplotlib, scipy, tkinter
 - **Operating Systems**: Windows (PowerShell/Batch) and macOS/Linux (bash helpers)

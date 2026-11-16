@@ -16,48 +16,29 @@ def calculate_max_noise(points):
         return 0.0  # Not enough points to form a hull; return zero noise
 
     hull = ConvexHull(points)
-    hull_indices_original = hull.vertices  
-    hull_points = points[hull_indices_original]
+    hull_points = points[hull.vertices]
+    hullX = hull_points[:, 0]
+    hullY = hull_points[:, 1]
+    num_vertices = len(hull_points)
 
-    K = np.arange(len(hull_points))  
+    # The minimum vertical distance between two parallel lines enclosing all
+    # points is attained when the lines' slope equals a convex hull edge slope.
+    # For each edge slope m, that vertical distance is
+    # max(y - m*x) - min(y - m*x), evaluated over the hull vertices
+    # (the extremes always lie on the hull).
+    best_noise = np.inf
+    for i in range(num_vertices):
+        j = (i + 1) % num_vertices  # include closing edge (last -> first)
+        dx = hullX[j] - hullX[i]
+        dy = hullY[j] - hullY[i]
 
-    hullX = hull_points[K, 0]
-    hullY = hull_points[K, 1]
+        if abs(dx) < 1e-13:
+            continue  # vertical edge: enclosing lines of infinite slope, skip
 
-    cos_angle = np.zeros(len(K) - 1)
-    sin_angle = np.zeros(len(K) - 1)
-    noiseList = []
+        slope = dy / dx
+        residuals = hullY - slope * hullX
+        vertical_spread = np.max(residuals) - np.min(residuals)
+        if vertical_spread < best_noise:
+            best_noise = vertical_spread
 
-    for i in range(len(K) - 1):
-        dx = hullX[i + 1] - hullX[i]
-        dy = hullY[i + 1] - hullY[i]
-        vector = np.array([dx, dy])
-        norm_vector = np.linalg.norm(vector)
-
-        if norm_vector < 1e-13:  # Avoid division by zero
-            cos_angle[i] = dx*1e13
-            sin_angle[i] = dy*1e13
-        else:
-            cos_angle[i] = dx / norm_vector
-            sin_angle[i] = dy / norm_vector
-
-        rotated_hull_points = []
-        rotationMatrix = np.array([
-            [cos_angle[i], -sin_angle[i]],
-            [sin_angle[i], cos_angle[i]]
-        ])
-        
-        # Rotate all hull points
-        rotated_points = np.column_stack((hullX, hullY)) @ rotationMatrix.T
-
-        # Take max-min of the y-column (vertical spread after rotation)
-        max_y = np.max(rotated_points[:, 1])
-        min_y = np.min(rotated_points[:, 1])
-        if abs(cos_angle[i]) > 1e-13:
-            noise_range = (max_y - min_y) / cos_angle[i]
-        else:
-            noise_range = 1e13  # or np.nan, or another value that makes sense for your use case
-        noiseList.append(abs(noise_range))
-
-
-    return np.min(noiseList)
+    return float(best_noise)

@@ -4,7 +4,7 @@ ASTM Noise Analysis Tool
 A Python-based tool for analyzing noise in deuterium lamp data according to ASTM standards.
 Provides GUI interface for loading data files, calculating noise parameters, and visualizing results.
 
-Version: 3.2.0
+Version: 3.2.1
 Author: Tim Carlson
 """
 
@@ -34,7 +34,10 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         show_complete_dataset (bool): Whether to show the complete dataset plot (default: False)
         show_high_noise_intervals (bool): Whether to show plot of highest noise intervals (default: False)
         n_intervals (int): Number of highest noise intervals to track and plot (default: 0)
-        noise_threshold (float): Threshold value - show all intervals above this noise level (default: None)
+        noise_threshold (float): Threshold value - show every 30-second interval whose own
+            noise value (in either channel) is at or above this level. This is the
+            per-interval noise (the quantity whose maximum over the analysis window is the
+            reported Max), not the campaign mean or max statistic. (default: None)
         max_intervals_to_plot (int): Maximum number of intervals to plot in detailed view (default: 8)
     """
     all_main_noise_values = []
@@ -346,7 +349,7 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         
         # Display high noise intervals with both channel values
         if noise_threshold is not None:
-            interval_text = f"\nHigh Noise Intervals Above {noise_threshold} ({analysis_start_seconds/60:.1f}-{analysis_end_seconds/60:.1f} min window, {len(sorted_groups)} found):\n"
+            interval_text = f"\nHigh Noise Intervals with per-interval noise (either channel) above {noise_threshold} ({analysis_start_seconds/60:.1f}-{analysis_end_seconds/60:.1f} min window, {len(sorted_groups)} found):\n"
         else:
             interval_text = f"\nTop {len(sorted_groups)} High Noise Intervals ({analysis_start_seconds/60:.1f}-{analysis_end_seconds/60:.1f} min window):\n"
         interval_text += "=" * 70 + "\n"
@@ -369,7 +372,7 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         # Show in a popup window
         interval_window = tk.Toplevel()
         if noise_threshold is not None:
-            interval_window.title(f"High Noise Intervals (Above {noise_threshold})")
+            interval_window.title(f"High Noise Intervals (per-interval noise \u2265 {noise_threshold})")
         else:
             interval_window.title("High Noise Intervals")
         interval_window.geometry("900x800")  # Made wider and taller for file selection and buttons
@@ -512,6 +515,132 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
             var.trace_add('write', lambda *args: update_select_all_state())
         
         # Add button to plot 30-second intervals
+        def read_last_data_time(filepath):
+            """Read the last data row's time value from a file (cheap tail read)."""
+            try:
+                with open(filepath, 'rb') as f:
+                    f.seek(0, os.SEEK_END)
+                    size = f.tell()
+                    f.seek(-min(size, 8192), os.SEEK_END)
+                    tail_lines = f.read().decode(errors='ignore').strip().splitlines()
+                for line in reversed(tail_lines):
+                    parts = line.split()
+                    if parts:
+                        try:
+                            return float(parts[0])
+                        except ValueError:
+                            continue
+            except OSError:
+                pass
+            return None
+        
+        def compute_concatenated_offsets(selected_files):
+            """Map each selected file to its start offset on the concatenated analysis
+            timeline (cumulative end times of all preceding files in the analysis
+            sequence). Files outside the analysis sequence get no offset."""
+            needed = [fp for fp in selected_files if fp in files_to_process]
+            if not needed:
+                return {}
+            last_needed_idx = max(files_to_process.index(fp) for fp in needed)
+            offsets = {}
+            cumulative = 0.0
+            for fp in files_to_process[:last_needed_idx + 1]:
+                offsets[fp] = cumulative
+                end_time = read_last_data_time(fp)
+                if end_time is None:
+                    break  # cannot extend the timeline past this file
+                cumulative += end_time
+            return {fp: offsets[fp] for fp in needed if fp in offsets}
+        
+        def plot_intervals_for_selected_files(selected_files, max_intervals):
+            """Find 30-second intervals exceeding the noise threshold anywhere in the
+            selected files (entire file, not just the 30-90 min analysis window) and
+            plot them against each file's own data, on the concatenated timeline."""
+            qualifying = []  # list of (filepath, group dict with concatenated-timeline times)
+            file_data = {}   # filepath -> (concatenated times, main intensities, ref intensities)
+            
+            # Offsets that place each file on the same concatenated timeline used by
+            # the main analysis plots; files outside that sequence stay file-local.
+            timeline_offsets = compute_concatenated_offsets(selected_files)
+            
+            for filepath in selected_files:
+                filename = os.path.basename(filepath)
+                try:
+                    data = np.loadtxt(filepath, delimiter='\t', skiprows=2)
+                except Exception as e:
+                    print(f"  Error loading {filename}: {e}")
+                    continue
+                if data.ndim != 2 or data.shape[0] < 2 or data.shape[1] < 5:
+                    print(f"  Skipping {filename}: unexpected data shape")
+                    continue
+                
+                times = data[:, 0]
+                time_offset_local = timeline_offsets.get(filepath)
+                if time_offset_local is None:
+                    print(f"  Note: {filename} is outside the analysis sequence; times shown are file-local")
+                    time_offset_local = 0.0
+                delta_val = abs(data[1, 0] - data[0, 0])
+                subset_size = max(3, math.floor(30 / (delta_val if delta_val > 1e-9 else 0.15)))
+                
+                groups = {}
+                for channel_name, col in (('Main', 2), ('Reference', 4)):
+                    points = np.column_stack((times, data[:, col]))
+                    for i in range(0, len(points), subset_size):
+                        if i + subset_size > len(points):
+                            break
+                        subset = np.round(points[i:i + subset_size], decimals=2)
+                        if len(subset) <= 2:
+                            continue
+                        noise_val = calculate_max_noise(subset)
+                        if noise_threshold is not None and noise_val < noise_threshold:
+                            continue
+                        key = subset[0, 0]
+                        group = groups.setdefault(key, {
+                            'start_time': subset[0, 0] + time_offset_local,
+                            'end_time': subset[-1, 0] + time_offset_local,
+                            'file_idx': None,
+                            'filename': filename,
+                            'main_noise': None,
+                            'ref_noise': None,
+                            'max_noise': 0
+                        })
+                        if channel_name == 'Main':
+                            group['main_noise'] = noise_val
+                        else:
+                            group['ref_noise'] = noise_val
+                        group['max_noise'] = max(group['max_noise'], noise_val)
+                
+                if groups:
+                    file_data[filepath] = (times + time_offset_local, data[:, 2], data[:, 4])
+                    for g in groups.values():
+                        qualifying.append((filepath, g))
+            
+            if not qualifying:
+                if noise_threshold is not None:
+                    messagebox.showinfo("No Intervals to Plot",
+                                        f"No 30-second interval in the selected files had a per-interval "
+                                        f"noise value (in either channel) at or above the threshold "
+                                        f"({noise_threshold:g}).")
+                else:
+                    messagebox.showinfo("No Intervals to Plot",
+                                        "No 30-second intervals could be computed from the selected files.")
+                return
+            
+            # Keep the highest-noise intervals overall, capped at max_intervals
+            qualifying.sort(key=lambda item: item[1]['max_noise'], reverse=True)
+            if len(qualifying) > max_intervals:
+                print(f"Limiting plot to highest {max_intervals} of {len(qualifying)} qualifying intervals")
+                qualifying = qualifying[:max_intervals]
+            
+            # Plot per file so each interval is shown against its own file's data
+            # (times are on the concatenated analysis timeline where available)
+            by_file = {}
+            for filepath, g in qualifying:
+                by_file.setdefault(filepath, []).append(g)
+            for filepath, groups_list in by_file.items():
+                t, i_main, i_ref = file_data[filepath]
+                plot_detailed_intervals(groups_list, t, i_main, t, i_ref, output_directory, None)
+        
         def plot_30_second_intervals():
             # Get the max intervals value from the popup window's entry field
             try:
@@ -521,6 +650,28 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
             except ValueError:
                 messagebox.showerror("Invalid Input", 
                                    "Please enter a valid positive number for max intervals to plot.")
+                return
+            
+            # If files are selected below, search those entire files for qualifying
+            # intervals instead of only the 30-90 min analysis window.
+            selected_files = [filepath for filepath, var in file_checkboxes.items() if var.get()]
+            if selected_files:
+                plot_intervals_for_selected_files(selected_files, max_intervals)
+                return
+            
+            if not sorted_groups:
+                if noise_threshold is not None:
+                    messagebox.showinfo("No Intervals to Plot",
+                                        f"No 30-second interval in the analysis window had a per-interval "
+                                        f"noise value (in either channel) at or above the threshold ({noise_threshold:g}).\n"
+                                        "Note: the threshold is compared to each interval's own noise value, "
+                                        "not to the mean noise.\n"
+                                        "Lower the noise threshold and re-run, or select files below to "
+                                        "search those entire files instead.")
+                else:
+                    messagebox.showinfo("No Intervals to Plot",
+                                        "No high-noise intervals were found in the analysis window.\n"
+                                        "Select files below to search those entire files instead.")
                 return
             
             # Use the max_intervals value when high noise intervals are shown
@@ -772,7 +923,10 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
         for i, group in enumerate(intervals_to_plot):
             # Create individual window for this interval
             detail_window = tk.Toplevel()
-            detail_window.title(f"Interval {i+1}: {group['start_time']/60.0:.1f}-{group['end_time']/60.0:.1f} min")
+            window_title = f"Interval {i+1}: {group['start_time']/60.0:.1f}-{group['end_time']/60.0:.1f} min"
+            if group.get('filename'):
+                window_title += f" ({group['filename']})"
+            detail_window.title(window_title)
             detail_window.geometry("600x700")
             
             # Create individual figure for this interval
@@ -857,7 +1011,10 @@ def load_and_calculate_noise_multiple(show_complete_dataset=False, show_high_noi
             # Set title with noise values
             main_noise_str = f"{group['main_noise']:.3f}" if group['main_noise'] is not None else "N/A"
             ref_noise_str = f"{group['ref_noise']:.3f}" if group['ref_noise'] is not None else "N/A"
-            ax.set_title(f"Interval {i+1}: {start_min:.1f}-{end_min:.1f} min\nMain: {main_noise_str}, Ref: {ref_noise_str}", 
+            plot_title = f"Interval {i+1}: {start_min:.1f}-{end_min:.1f} min"
+            if group.get('filename'):
+                plot_title += f" ({group['filename']})"
+            ax.set_title(f"{plot_title}\nMain: {main_noise_str}, Ref: {ref_noise_str}", 
                         fontsize=10)
             
             # Set reasonable zoom around the interval
@@ -1328,7 +1485,7 @@ def create_gui():
     threshold_frame = tk.Frame(interval_config_frame)
     threshold_frame.pack(fill=tk.X, pady=2)
     
-    threshold_label = tk.Label(threshold_frame, text="Noise threshold:", 
+    threshold_label = tk.Label(threshold_frame, text="Noise threshold (per 30-s interval, either channel):", 
                               font=("Arial", 10))
     threshold_label.pack(side=tk.LEFT)
     

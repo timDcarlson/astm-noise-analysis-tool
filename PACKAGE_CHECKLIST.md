@@ -45,7 +45,7 @@
 ## Distribution Package Structure
 
 ```
-ASTM-Noise-Analysis-Tool-v3.2.0/
+ASTM-Noise-Analysis-Tool-v3.2.1/
 ├── create_distribution.ps1
 ├── create_distribution.sh
 ├── ASTMnoise.py
@@ -101,7 +101,7 @@ ASTM-Noise-Analysis-Tool-v3.2.0/
 
 2. **Create package folder**
    ```powershell
-   $packageName = "ASTM-Noise-Analysis-Tool-v3.2.0"
+   $packageName = "ASTM-Noise-Analysis-Tool-v3.2.1"
    New-Item -ItemType Directory -Name $packageName
    ```
 

@@ -5,7 +5,7 @@ echo ASTM Noise Analysis Tool - Distribution Creator
 echo ===============================================
 echo.
 
-set VERSION=2.1.0
+set VERSION=3.2.1
 set PACKAGE_NAME=ASTM-Noise-Analysis-Tool-v%VERSION%
 
 echo Creating distribution package v%VERSION%...
